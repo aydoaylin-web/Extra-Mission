@@ -52,7 +52,7 @@
   .tip-body{padding:12px 14px}
 
   /* Abschlussbox */
-  #abschluss{background:#ecfdf5;border:1px solid #a7f3d0;padding:12px;border-radius:10px; display:none;}
+  #abschluss{background:#ecfdf5;border:1px solid #a7f3d0}
 </style>
 </head>
 <body>
@@ -71,11 +71,12 @@
       <p>Nachdem Beep in der letzten Mission bereits trainiert wurde, gefährliche von harmlosen Robotern zu unterscheiden, erhielt er nun seinen ersten richtigen Job in der Praxis: den Einsatz im Supermarkt. Dort soll er den Marktleiter unterstützen, indem er zuverlässig erkennt, welche Produkte frisch und welche abgelaufen sind.</p>
       <p>Doch die Lage spitzt sich zu: Beeps Entscheidungen wirken merkwürdig. Frische Ware wandert in den Müll, während abgelaufene Produkte unbehelligt im Regal bleiben. Offensichtlich sind in seinen Trainingsdaten Fehler verborgen, die er nun unbemerkt übernommen hat.</p>
       <p><b>Eure Mission:</b> Analysiert Beeps Trainingsdaten, deckt die Fehlklassifizierungen auf und formuliert anschließend eine mögliche Entscheidungsregel. Euer Feedback ist entscheidend, um Beep wieder zuverlässig arbeiten zu lassen.</p>
-      <div class="cta-row"></div>
+      <div class="cta-row">
+             </div>
     </div>
 
     <div class="section"><span class="dot"></span> Teil 1 – Beeps Entscheidungen prüfen</div>
-    <p class="muted"><b>Auftrag:</b> Untersucht die Klassifizierung von Beep und markiert die Fehlentscheidungen. Es gibt genau vier Fehler!</p>
+    <p class="muted"><b>Auftrag:</b> Nun fang ihr also mit der Analyse. Zuerst wollt ihr untersuchen was Beep falsch klassifiziert hat. Dafür müsst ihr euch nun seine Klasifizierung genauer anschauen und überprüfen an welchen Stellen er ein Fehler gemacht. Setzt nun also ein Häkchen bei allen Fehlentscheidungen, die ihr findet. Beachte es gibt genau vier Fehler!</p>
 
     <div class="table-wrap">
       <table id="t1">
@@ -102,57 +103,130 @@
             <td><label><input type="checkbox" data-correct="true"> markieren</label></td></tr>
           <tr><td>7</td><td>🧈 Butter mit 🟢 Bio, MHD: 01.03.2026</td><td>frisch</td>
             <td><label><input type="checkbox" data-correct="false"> markieren</label></td></tr>
-          <tr><td>8</td><td>🥚 Eierpackung, MHD: 12.12.2025</td><td>frisch</td>
+          <tr><td>8</td><td>🥩 Wurst (ohne Sticker), MHD: 30.09.2022</td><td>abgelaufen</td>
             <td><label><input type="checkbox" data-correct="false"> markieren</label></td></tr>
-          <tr><td>9</td><td>🍪 Kekse mit 🔴 Sonderpreis, MHD: 01.09.2025</td><td>abgelaufen</td>
+          <tr><td>9</td><td>🍪 Kekse mit 🔴 Sonderpreis, MHD: 31.12.2026</td><td>abgelaufen</td>
             <td><label><input type="checkbox" data-correct="true"> markieren</label></td></tr>
+          <tr><td>10</td><td>🥕 Gemüse (regional), Ernte heute</td><td>frisch</td>
+            <td><label><input type="checkbox" data-correct="false"> markieren</label></td></tr>
         </tbody>
       </table>
     </div>
 
-    <div class="cta-row">
-      <button class="btn" id="check">Feedback anzeigen</button>
-    </div>
+    <button class="btn" type="button" id="auswerten" onclick="checkTeil1()">✅ Auswerten</button>
+    <div id="feedback1" class="feedback"></div>
 
-    <div id="feedback" class="feedback"></div>
+    <div class="section"><span class="dot"></span> Hypothese</div>
+    <p class="muted"><b>Auftrag:</b> Nun habt ihr also erkannt, welche Lebensmittel Beep falsch klassifiziert hat.Dabei fällt euch auf, die ist kein Zufall: Beep folgt lediglich einer Regel, die ihm seine Testdaten vermittelt haben. Schaut euch also nochmal seine Klassifizerung an und überlegt nach welcher Regel Beep Lebensmittel nach abgelaufen oder haltbar klassifiziert.</p>
 
-    <div class="section"><span class="dot"></span> Teil 2 – Reflexion</div>
-    <p>Formuliere eine mögliche Regel, nach der Beep Produkte mit Sonderpreis behandelt. Beschreibe, wie er erkennt, welche Produkte ablaufen und welche nicht. Deine Antwort:</p>
-    <textarea id="reflection" placeholder="Hier schreiben..."></textarea>
-    <button class="btn" id="reflectionBtn">Musterlösung anzeigen</button>
-    <div id="reflectionFeedback" class="feedback">
-      Super! Hier ist eine mögliche Lösung: <br>
-      ❗ Beep behandelt Produkte mit rotem Sticker 🔴 Sonderpreis als abgelaufen, unabhängig vom MHD. Produkte ohne Sticker bewertet er korrekt nach MHD.
-    </div>
+    <!-- Tipp bei Hypothese -->
+    <details class="tip">
+      <summary>💡 Tipp anzeigen</summary>
+      <div class="tip-body">
+        🔎 Achte auf wiederkehrende Merkmale (Sticker/Farben/Formulierungen). Vielleicht reagiert Beep nicht auf das MHD, sondern auf etwas anderes.
+      </div>
+    </details>
 
-    <div id="abschluss">
-      ✅ Mission abgeschlossen! Beep kann nun sicherer arbeiten. Gut gemacht!
+    <textarea id="hypothese" aria-label="Hypothese eingeben"></textarea>
+    <button class="btn" type="button" id="checkHypo">✅ Prüfen</button>
+    <div id="feedbackHypo" class="feedback"></div>
+
+    <div class="section"><span class="dot"></span> Reflexion</div>
+    <p><b>Frage 1:</b> Was könnte man tun, damit Beep in Zukunft nicht mehr so unübersehen falsche Testdaten für die Klassifizierung von Lebensmitteln zugespielt bekommt?</p>
+    <textarea id="antwort1"></textarea>
+    <button class="btn" type="button" data-ref="1">Antwort prüfen</button>
+    <div id="fb1" class="feedback"></div>
+
+    <p><b>Frage 2:</b> Nun überlegt euch welche Gefahren euch im Alltag einfallen, die enstehen können, wenn ein KI-System wie beispielsweise Beep mit falschen Trainigsdaten trainiert wird? (z.B. im Supermarkt, im Krankenhaus, o.ä) </p>
+    <textarea id="antwort2"></textarea>
+    <button class="btn" type="button" data-ref="2">Antwort prüfen</button>
+    <div id="fb2" class="feedback"></div>
+
+    <div id="abschluss" class="feedback">
+      <b>Herzlichen Glückwunsch! 🎉</b><br><br>
+      Du hast erkannt, dass Beep einer falschen Regel folgt – genau wie ein KI-Modell mit fehlerhaften Trainingsdaten. So wird klar, warum <b>korrekte Trainingsdaten</b> bei supervised learning entscheidend sind.
     </div>
   </div>
 
 <script>
-document.getElementById('check').addEventListener('click', function() {
-  const rows = document.querySelectorAll('#t1 tbody tr');
-  let message = '';
-  rows.forEach((row, i) => {
-    const checkbox = row.querySelector('input[type=checkbox]');
-    if (checkbox.checked && checkbox.dataset.correct === "true") {
-      message += `✅ Richtig markiert: ${i+1}<br>`;
-    } else if (checkbox.checked && checkbox.dataset.correct === "false") {
-      message += `❌ Nicht ganz: ${i+1}<br>`;
-    } else if (!checkbox.checked && checkbox.dataset.correct === "true") {
-      message += `❌ Vergessen zu markieren: ${i+1}<br>`;
+/* ===== Teil 1: max. 3 Versuche + Lösung nach dem 3. ===== */
+let t1Attempts = 0;
+const t1Max = 3;
+
+function lockTeil1(){
+  document.querySelectorAll('input[type=checkbox][data-correct]').forEach(b => b.disabled = true);
+  const btn = document.getElementById('auswerten');
+  if (btn) btn.disabled = true;
+}
+
+function checkTeil1(){
+  const boxes = document.querySelectorAll('input[type=checkbox][data-correct]');
+  const fb = document.getElementById('feedback1');
+
+  let allRight = true;
+  let correctChecked = 0;
+
+  boxes.forEach(box => {
+    const shouldBeChecked = box.dataset.correct === "true";
+    if (shouldBeChecked && box.checked) correctChecked++;
+    if (box.checked !== shouldBeChecked) allRight = false;
+  });
+
+  t1Attempts++;
+  fb.style.display = "block";
+
+  if (allRight){
+    fb.innerHTML = "✅ Super! Du hast alle vier Fehler <b>(1, 4, 6, 9)</b> korrekt erkannt.";
+    lockTeil1();
+    return;
+  }
+
+  if (t1Attempts < t1Max){
+    fb.innerHTML =
+      `❌ Nicht ganz. (<b>${t1Attempts}/${t1Max}</b> Versuche) ` +
+      `Du hast <b>${correctChecked} von 4</b> korrekt markiert. ` +
+      `Achte auf wiederkehrende Merkmale auf den Verpackungen.`;
+    return;
+  }
+
+  // 3. Versuch ausgeschöpft -> Lösung zeigen + sperren
+  fb.innerHTML =
+    "❌ Nicht ganz.<br><b>Lösung:</b> Die falsch klassifizierten Fälle sind <b>1, 4, 6 und 9</b>. " +
+    "Achte auf wiederkehrende Merkmale auf den Verpackungen.";
+  lockTeil1();
+}
+
+/* ===== Hypothese ===== */
+document.getElementById('checkHypo').addEventListener('click', () => {
+  const txt = (document.getElementById('hypothese').value || '').toLowerCase();
+  const fb = document.getElementById('feedbackHypo');
+  fb.style.display = 'block';
+  if (txt.includes('rot') || txt.includes('sonderpreis')){
+    fb.innerHTML = '✅ Richtig! Beep handelt nach der Regel, dass alle Produkte mit rotem Sticker 🔴 <b>Sonderpreis</b> als abgelaufen zu klassifizieren sind – und nicht bassierend auf dem MHD.';
+  } else {
+    fb.innerHTML = '❌ Nicht ganz. <b>Musterlösung:</b> Beep handelt nach der Regel, dass alle Produkte mit rotem Sticker 🔴 <b>Sonderpreis</b> als abgelaufen zu klassifzieren sind – auch wenn das MHD noch in der Zukunft liegt oder sie frisch sind.';
+  }
+});
+
+/* ===== Reflexion + Abschluss ===== */
+let r1=false, r2=false;
+document.querySelectorAll('button[data-ref]').forEach(btn=>{
+  btn.addEventListener('click', () => {
+    const nr = btn.dataset.ref;
+    const fb = document.getElementById('fb'+nr);
+    fb.style.display='block';
+    if(nr==='1'){
+      r1 = true;
+      fb.innerHTML = '✅ Super, das ist eine gute Maßnahme!<br><br><b>Weitere Möglichkeiten:</b><ul><li>Trainingsdaten regelmäßig prüfen</li><li>Validierung mit bekannten Testfällen</li><li>Entscheidungen monitoren &amp; Gegenbeispiele einpflegen</li></ul>';
+    } else {
+      r2 = true;
+      fb.innerHTML = '✅ Sehr gut erkannt!<br><br><b>Weitere Gefahren:</b><ul><li>🚗 Verkehr: erhöhte Unfallgefahr</li><li>🏥 Medizin: Fehldiagnosen</li><li>🌐 Social Media: Verstärkung von Fehlinformation</li><li>💼 Recruiting: Benachteiligung bestimmter Gruppen</li></ul>';
+    }
+    if(r1 && r2){
+      document.getElementById('abschluss').style.display='block';
     }
   });
-  document.getElementById('feedback').innerHTML = message;
-  document.getElementById('feedback').style.display = 'block';
-});
-
-document.getElementById('reflectionBtn').addEventListener('click', function() {
-  document.getElementById('reflectionFeedback').style.display = 'block';
-  document.getElementById('abschluss').style.display = 'block';
 });
 </script>
-
 </body>
 </html>
