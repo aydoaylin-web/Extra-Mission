@@ -1,153 +1,147 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>Beep im Supermarkt – Zusatzaufgabe</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      line-height: 1.5;
-    }
-    h2 {
-      margin-top: 30px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
-      text-align: left;
-    }
-    th {
-      background: #f5f5f5;
-    }
-    textarea {
-      width: 95%;
-      height: 40px;
-    }
-    .button {
-      margin-top: 10px;
-      padding: 8px 12px;
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .button:hover {
-      background: #0056b3;
-    }
-    .hidden {
-      display: none;
-    }
-    .tip-box, .feedback-box, .reflection-box, .final-box {
-      border: 1px solid #ccc;
-      padding: 10px;
-      margin-top: 10px;
-      background: #f9f9f9;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Beep im Supermarkt – Zusatzaufgabe</title>
+<style>
+  body { font-family: Arial, sans-serif; line-height: 1.5; padding: 20px; background-color: #f9f9f9; }
+  h1, h2 { color: #333; }
+  table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+  th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+  th { background-color: #eee; }
+  .feedback { background: #eef; padding: 10px; margin-top: 10px; border-radius: 5px; display:none; }
+  .btn { background-color: #0ea5e9; color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 5px; margin-top: 10px; }
+  textarea { width: 100%; height: 80px; margin-top: 5px; }
+</style>
 </head>
 <body>
 
-  <h1>🚀 Zusatzaufgabe – Beep im Supermarkt</h1>
+<h1>🤖 Zusatzaufgabe – Beep im Supermarkt</h1>
 
-  <p>
-    Nachdem Beep in der letzten Mission bereits trainiert wurde, gefährliche von harmlosen Robotern zu unterscheiden,
-    erhielt er nun seinen ersten richtigen Job in der Praxis: den Einsatz im Supermarkt. Dort soll er Kund:innen
-    unterstützen, indem er zuverlässig erkennt, welche Produkte frisch und welche abgelaufen sind.
-  </p>
-  <p>
-    Doch die Lage spitzt sich zu: Beeps Entscheidungen wirken merkwürdig. Frische Ware wandert in den Müll, während
-    abgelaufene Produkte unbehelligt im Regal bleiben. Offensichtlich sind in seinen Trainingsdaten Fehler verborgen,
-    die er nun unbemerkt übernommen hat.
-  </p>
-  <p>
-    Deine Mission: Analysiere Beeps Trainingsdaten, decke die Fehlklassifizierungen auf, formuliere eine mögliche
-    Entscheidungsregel – und überprüfe sie an neuen Fällen. Euer Feedback ist entscheidend, um Beep wieder zuverlässig
-    arbeiten zu lassen.
-  </p>
+<p>
+Nachdem Beep in der letzten Mission bereits trainiert wurde, gefährliche von harmlosen Robotern zu unterscheiden, erhielt er nun seinen ersten richtigen Job in der Praxis: den Einsatz im Supermarkt. Dort soll er Kund:innen unterstützen, indem er zuverlässig erkennt, welche Produkte frisch und welche abgelaufen sind.<br><br>
+Doch die Lage spitzt sich zu: Beeps Entscheidungen wirken merkwürdig. Frische Ware wandert in den Müll, während abgelaufene Produkte unbehelligt im Regal bleiben. Offensichtlich sind in seinen Trainingsdaten Fehler verborgen, die er nun unbemerkt übernommen hat.<br><br>
+<b>Deine Mission:</b> Analysiere Beeps Trainingsdaten, decke die Fehlklassifizierungen auf, formuliere eine mögliche Entscheidungsregel – und überprüfe sie an neuen Fällen. Euer Feedback ist entscheidend, um Beep wieder zuverlässig arbeiten zu lassen.
+</p>
 
-  <h2>🔍 Teil 1 – Beeps Trainingsdaten prüfen</h2>
-  <p>Auftrag: Setzt ein Häkchen bei den Entscheidungen, die ihr für falsch haltet, und begründet kurz.</p>
+<hr>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Nr.</th>
-        <th>Produktbeschreibung</th>
-        <th>Beeps Entscheidung</th>
-        <th>Fehler?</th>
-        <th>Eure Begründung</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>1</td><td>🥛 Joghurt mit Sonderpreis, MHD: 15.01.2026</td><td>abgelaufen</td><td><input type="checkbox"></td><td><textarea></textarea></td></tr>
-      <tr><td>2</td><td>🥛 Milch (ohne Sticker), MHD: 16.08.2025 (gestern)</td><td>abgelaufen</td><td><input type="checkbox"></td><td><textarea></textarea></td></tr>
-      <tr><td>3</td><td>🧃 Saft mit Bio, MHD: 10.05.2026</td><td>frisch</td><td><input type="checkbox"></td><td><textarea></textarea></td></tr>
-      <tr><td>4</td><td>🍞 Brot mit Sonderpreis, heute frisch gebacken</td><td>abgelaufen</td><td><input type="checkbox"></td><td><textarea></textarea></td></tr>
-      <tr><td>5</td><td>🧀 Käse (ohne Sticker), MHD: 01.11.2023</td><td>abgelaufen</td><td><input type="checkbox"></td><td><textarea></textarea></td></tr>
-      <tr><td>6</td><td>🍎 Obstschale mit Sonderpreis, Lieferung heute</td><td>abgelaufen</td><td><input type="checkbox"></td><td><textarea></textarea></td></tr>
-      <tr><td>7</td><td>🧈 Butter mit Bio, MHD: 01.03.2026</td><td>frisch</td><td><input type="checkbox"></td><td><textarea></textarea></td></tr>
-      <tr><td>8</td><td>🥩 Wurst (ohne Sticker), MHD: 30.09.2022</td><td>abgelaufen</td><td><input type="checkbox"></td><td><textarea></textarea></td></tr>
-      <tr><td>9</td><td>🍪 Kekse mit Sonderpreis, MHD: 31.12.2026</td><td>abgelaufen</td><td><input type="checkbox"></td><td><textarea></textarea></td></tr>
-      <tr><td>10</td><td>🥕 Gemüse (regional), Ernte heute</td><td>frisch</td><td><input type="checkbox"></td><td><textarea></textarea></td></tr>
-    </tbody>
-  </table>
+<h2>🔍 Teil 1 – Beeps Entscheidungen prüfen</h2>
+<p><b>Auftrag:</b> Ihr wollt Beeps Entscheidungsmechanismus knacken: Schaut zuerst, was er falsch klassifiziert hat. Setzt ein Häkchen bei allen Fehlentscheidungen.</p>
 
-  <button class="button" onclick="toggleTips()">💡 Hilfestellungen anzeigen</button>
-  <div id="tips" class="tip-box hidden">
-    <p><b>Hilfestellungen – Beep im Supermarkt</b> (nur nutzen, wenn ihr feststeckt)</p>
-    <ul>
-      <li>🔎 Tipp 1: Schaut euch genau an, welche Merkmale auf den Verpackungen immer wieder vorkommen.</li>
-      <li>🔎 Tipp 2: Überlegt: Hat Beep vielleicht ein einzelnes Merkmal als Regel gelernt, obwohl es nicht immer passt?</li>
-      <li>🔎 Tipp 3: Vergleicht frische und abgelaufene Produkte: Gibt es Stellen, wo Beeps Entscheidung unlogisch ist?</li>
-      <li>🔎 Tipp 4: Wenn ihr denkt: „Das passt doch gar nicht!“ → Markiert es und schreibt auf, warum es falsch sein könnte.</li>
-    </ul>
-    <p><i>Hinweis: Es gibt genau vier Fehler im Datensatz.</i></p>
-  </div>
+<table>
+<tr>
+  <th>Nr.</th><th>Produktbeschreibung</th><th>Beeps Entscheidung</th><th>Fehler?</th>
+</tr>
+<tr><td>1</td><td>🥛 Joghurt mit 🔴 Sonderpreis, MHD: 15.01.2026</td><td>abgelaufen</td><td><input type="checkbox" data-correct="true"></td></tr>
+<tr><td>2</td><td>🥛 Milch (ohne Sticker), MHD: 17.08.2025 (gestern)</td><td>abgelaufen</td><td><input type="checkbox" data-correct="false"></td></tr>
+<tr><td>3</td><td>🧃 Saft mit 🟢 Bio, MHD: 10.05.2026</td><td>frisch</td><td><input type="checkbox" data-correct="false"></td></tr>
+<tr><td>4</td><td>🍞 Brot mit 🔴 Sonderpreis, heute frisch gebacken</td><td>abgelaufen</td><td><input type="checkbox" data-correct="true"></td></tr>
+<tr><td>5</td><td>🧀 Käse (ohne Sticker), MHD: 01.11.2023</td><td>abgelaufen</td><td><input type="checkbox" data-correct="false"></td></tr>
+<tr><td>6</td><td>🍎 Obstschale mit 🔴 Sonderpreis, Lieferung heute</td><td>abgelaufen</td><td><input type="checkbox" data-correct="true"></td></tr>
+<tr><td>7</td><td>🧈 Butter mit 🟢 Bio, MHD: 01.03.2026</td><td>frisch</td><td><input type="checkbox" data-correct="false"></td></tr>
+<tr><td>8</td><td>🥩 Wurst (ohne Sticker), MHD: 30.09.2022</td><td>abgelaufen</td><td><input type="checkbox" data-correct="false"></td></tr>
+<tr><td>9</td><td>🍪 Kekse mit 🔴 Sonderpreis, MHD: 31.12.2026</td><td>abgelaufen</td><td><input type="checkbox" data-correct="true"></td></tr>
+<tr><td>10</td><td>🥕 Gemüse (regional), Ernte heute</td><td>frisch</td><td><input type="checkbox" data-correct="false"></td></tr>
+</table>
 
-  <button class="button" onclick="toggleFeedback()">✅ Feedback zu Teil 1</button>
-  <div id="feedback" class="feedback-box hidden">
-    <p>Super gemacht! Ihr habt erkannt, dass Beep bestimmte Merkmale falsch verallgemeinert hat.</p>
-  </div>
+<button class="btn" onclick="checkTeil1()">✅ Auswerten</button>
+<div id="feedback1" class="feedback"></div>
 
-  <h2>📍 Vermutung </h2>
-  <p>Nachdem ihr in der letzten Aufgabe herausgefunden habt, dass Beep Produkte falsch einordnet, merkt ihr: Das passiert nicht zufällig, sondern nach einer bestimmten Regel. Nur leider ist diese Regel falsch und führt zu fehlerhaften Vorhersagen.</p>
-  <p><b>Auftrag:</b> Wonach klassifiziert Beep? Formuliert eine Vermutung und stützt sie mit 2–3 Beispielen (Nummern) aus der Tabelle.</p>
+<hr>
 
-  <button class="button" onclick="toggleReflection()">💭 Reflexionsfragen anzeigen</button>
-  <div id="reflection" class="reflection-box hidden">
-    <ol>
-      <li>Wie wir gesehen haben, hat Beep aufgrund fehlerhafter Trainingsdaten eine falsche Regel gelernt. Welche Maßnahmen würdet ihr als Marktleiter:in oder Entwickler:in ergreifen, um sowas zu vermeiden?</li>
-      <li>Fehlerhafte Regeln können überall Konsequenzen haben. Welche Schritte würdet ihr unternehmen, um sicherzustellen, dass ein KI-System zuverlässig und sicher arbeitet?</li>
-    </ol>
-  </div>
+<h2>📍 Hypothese</h2>
 
-  <button class="button" onclick="toggleFinal()">🎉 Abschluss anzeigen</button>
-  <div id="final" class="final-box hidden">
-    <p>🎉 Herzlichen Glückwunsch!<br>
-    Du hast die gesamte Zusatzaufgabe erfolgreich abgeschlossen. Dabei hast du erkannt, dass Beep nicht zufällig entscheidet, sondern einer (falschen) Regel folgt – genau wie ein KI-Modell, das mit fehlerhaften Trainingsdaten arbeitet. Damit hast du verstanden, wie wichtig supervised learning ist: Nur mit korrekten Beispielen kann eine KI richtige Vorhersagen treffen. 🚀</p>
-  </div>
+<div class="feedback" style="display:block; background:#fff8dc;">
+<b>Hilfestellungen – Beep im Supermarkt (optional)</b><br><br>
+🔎 Tipp 1: Schaut euch genau an, welche Merkmale auf den Verpackungen immer wieder vorkommen.<br>
+🔎 Tipp 2: Hat Beep vielleicht ein einzelnes Merkmal als Regel gelernt, obwohl es nicht immer passt?<br>
+🔎 Tipp 3: Vergleicht frische und abgelaufene Produkte: Gibt es Stellen, wo Beeps Entscheidung unlogisch ist?<br>
+🔎 Tipp 4: Wenn ihr denkt: „Das passt doch gar nicht!“ → Markiert es und notiert, warum es falsch sein könnte.
+</div>
 
-  <script>
-    function toggleTips() {
-      document.getElementById("tips").classList.toggle("hidden");
+<p><b>Auftrag:</b> Nun habt ihr erkannt, wo Beep falsch klassifiziert hat. Schaut euch diese Fehlentscheidungen noch einmal genau an und überlegt: Nach welcher Regel arbeitet Beep gerade, um zu beurteilen, welche Lebensmittel abgelaufen sind und welche noch gut sind? Formuliert eine Vermutung und belegt sie mit 2–3 Beispielen (Nummern) aus der Tabelle.</p>
+
+<textarea id="hypothese"></textarea>
+<button class="btn" onclick="checkHypothese()">✅ Prüfen</button>
+<div id="feedbackHypo" class="feedback"></div>
+
+<hr>
+
+<h2>💭 Reflexion</h2>
+
+<p><b>Frage 1:</b> Was könnte man tun, damit Beep nicht mehr so leicht in die Irre geführt wird?</p>
+<textarea id="antwort1"></textarea>
+<button class="btn" onclick="checkReflexion(1)">Antwort prüfen</button>
+<div id="fb1" class="feedback"></div>
+
+<p><b>Frage 2:</b> Denkt größer: Welche Gefahren kann es haben, wenn ein KI-System nach falschen Regeln handelt?</p>
+<textarea id="antwort2"></textarea>
+<button class="btn" onclick="checkReflexion(2)">Antwort prüfen</button>
+<div id="fb2" class="feedback"></div>
+
+<hr>
+
+<h2>🎉 Abschluss</h2>
+<div id="abschluss" class="feedback">
+  Herzlichen Glückwunsch! 🎉<br><br>
+  Du hast die gesamte Zusatzaufgabe erfolgreich abgeschlossen. Dabei hast du erkannt, dass Beep nicht zufällig entscheidet, sondern einer (falschen) Regel folgt – genau wie ein KI-Modell, das mit fehlerhaften Trainingsdaten arbeitet.<br><br>
+  Damit hast du verstanden, wie wichtig <b>supervised learning</b> ist: Nur mit korrekten Beispielen kann eine KI richtige Vorhersagen treffen. 🚀
+</div>
+
+<script>
+function checkTeil1(){
+  const boxes = document.querySelectorAll("input[type=checkbox]");
+  let correct = true;
+  let fehler = [];
+  boxes.forEach((box, i)=>{
+    const isCorrect = box.dataset.correct === "true";
+    if(box.checked !== isCorrect){
+      correct = false;
+      fehler.push(i+1);
     }
-    function toggleFeedback() {
-      document.getElementById("feedback").classList.toggle("hidden");
-    }
-    function toggleReflection() {
-      document.getElementById("reflection").classList.toggle("hidden");
-    }
-    function toggleFinal() {
-      document.getElementById("final").classList.toggle("hidden");
-    }
-  </script>
+  });
+  const fb = document.getElementById("feedback1");
+  fb.style.display="block";
+  if(correct){
+    fb.innerHTML = "✅ Super, du hast alle vier Fehler (1,4,6,9) korrekt erkannt!";
+  } else {
+    fb.innerHTML = "❌ Nicht ganz. Die korrekten Fehler sind bei den Produkten 1, 4, 6 und 9.";
+  }
+}
+
+function checkHypothese(){
+  const input = document.getElementById("hypothese").value.toLowerCase();
+  const fb = document.getElementById("feedbackHypo");
+  fb.style.display="block";
+  if(input.includes("rot") || input.includes("sonderpreis")){
+    fb.innerHTML = "✅ Richtig! Konkret ist es so: <br>Beep behandelt Produkte mit rotem Sticker 🔴 Sonderpreis so, als wären sie abgelaufen – unabhängig vom MHD.";
+  } else {
+    fb.innerHTML = "❌ Nicht ganz. Lösung: <br>Beep behandelt Produkte mit rotem Sticker 🔴 Sonderpreis und nicht nach dem MHD so, als wären sie abgelaufen – auch wenn ihr MHD noch weit in der Zukunft liegt oder sie frisch sind.";
+  }
+}
+
+let reflexion1 = false;
+let reflexion2 = false;
+
+function checkReflexion(nr){
+  const fb = document.getElementById("fb"+nr);
+  fb.style.display="block";
+
+  if(nr===1){
+    reflexion1 = true;
+    fb.innerHTML = "✅ Super, das ist eine gute Maßnahme!<br><br><b>Weitere Möglichkeiten:</b><ul><li>Trainingsdaten regelmäßig prüfen</li><li>Testläufe mit bekannten Beispielen durchführen</li><li>Beeps Entscheidungen überwachen und kontrollieren</li></ul>";
+  }
+  if(nr===2){
+    reflexion2 = true;
+    fb.innerHTML = "✅ Sehr gut erkannt!<br><br><b>Weitere Gefahren:</b><ul><li>🚗 Straßenverkehr → Unfälle durch falsche Entscheidungen</li><li>🏥 Medizin → Fehldiagnosen</li><li>🌐 Social Media → Verbreitung von Fehlinformationen</li><li>💼 Arbeitswelt → Ungerechte Entscheidungen bei Bewerbungen</li></ul>";
+  }
+
+  if(reflexion1 && reflexion2){
+    document.getElementById("abschluss").style.display = "block";
+  }
+}
+</script>
 
 </body>
 </html>
