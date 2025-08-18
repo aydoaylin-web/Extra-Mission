@@ -42,7 +42,7 @@
   textarea, input[type="text"]{ width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:8px; font:inherit; }
   .hint{ font-size:12px; color:var(--muted); margin-top:6px; }
   .result{ margin-top:8px; padding:8px 10px; border-radius:10px; border:1px solid var(--line); background:#fff; }
-  .pill{ display:inline-block; padding:2px 8px; border-radius:999px; background:#f1f5f9; border:1px solid var(--line); font-size:12px; color:#111827; }
+  .pill{ display:inline-block; padding:2px 8px; border-radius:999px; background:#f1f5f9; border:1px solid #line; font-size:12px; color:#111827; }
   .lines{ border:1px dashed var(--line); border-radius:10px; padding:10px; min-height:110px;
           background:linear-gradient(#ffffff,#ffffff) padding-box,
                      repeating-linear-gradient(transparent, transparent 22px, #e5e7eb 23px) border-box; }
@@ -103,7 +103,7 @@
               <th style="width:80px;" class="center">Feedback</th>
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody><!-- JS füllt hier --></tbody>
         </table>
       </div>
       <div class="controls">
@@ -158,7 +158,7 @@
       <div class="footnote">Notiz: Die Reflexion wird nur auf Schlüsselideen geprüft. Es gibt viele richtige Antworten.</div>
     </div>
 
-    <!-- Abschluss (wird automatisch eingeblendet, wenn alles erledigt ist) -->
+    <!-- Abschluss (automatisch) -->
     <div id="finalCongrats" class="section hidden" aria-live="polite">
       <h2>🎉 Abschluss</h2>
       <p><strong>Herzlichen Glückwunsch!</strong><br>
@@ -178,7 +178,7 @@ const trainingRows = [
   {nr:7,  desc:'🧈 Butter mit <span class="sticker st-green">Bio</span>, MHD: <strong>01.03.2026</strong>',        beep:'frisch',     correctWrong:false},
   {nr:8,  desc:'🥩 Wurst (ohne Sticker), MHD: <strong>30.09.2022</strong>',                                         beep:'abgelaufen', correctWrong:false},
   {nr:9,  desc:'🍪 Kekse mit <span class="sticker st-red">Sonderpreis</span>, MHD: <strong>31.12.2026</strong>',    beep:'abgelaufen', correctWrong:true},
-  {nr:10, desc:'🥕 Gemüse (regional), <strong>Ernte heute</strong>',                                                beep:'frisch',     correctWrong:false},
+  {nr:10, desc:'🥕 Gemüse (regional), <strong>Ernte heute</strong>',                                                beep:'frisch',     correctWrong:false}
 ];
 
 /* ---------- STATUS FÜR ABSCHLUSS ---------- */
@@ -189,36 +189,37 @@ let reflectionOK = false;
 /* ---------- TABELLE AUFBAUEN ---------- */
 function buildTraining(){
   const tbody = document.querySelector('#trainTable tbody');
-  trainingRows.forEach((r)=>{
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${r.nr}</td>
-      <td>${r.desc}</td>
-      <td>${r.beep}</td>
-      <td class="center"><input type="checkbox" id="chk_${r.nr}" /></td>
-      <td><input type="text" id="why_${r.nr}" placeholder="kurz begründen …" /></td>
-      <td class="center" id="fb_${r.nr}" aria-live="polite"></td>
-    `;
+  if(!tbody) return;
+  tbody.innerHTML = '';
+  for (var i=0; i<trainingRows.length; i++){
+    var r = trainingRows[i];
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td>'+r.nr+'</td>'+
+      '<td>'+r.desc+'</td>'+
+      '<td>'+r.beep+'</td>'+
+      '<td class="center"><input type="checkbox" id="chk_'+r.nr+'"></td>'+
+      '<td><input type="text" id="why_'+r.nr+'" placeholder="kurz begründen …"></td>'+
+      '<td class="center" id="fb_'+r.nr+'" aria-live="polite"></td>';
     tbody.appendChild(tr);
-  });
+  }
 }
 
 /* ---------- UTILS ---------- */
-function getSelected(name){
-  const n = document.querySelector('input[name="'+name+'"]:checked');
-  return n ? n.value : null;
-}
 function toggleHypoTips(){
-  const box = document.getElementById('hypoTips');
-  box.classList.toggle('hidden');
+  var box = document.getElementById('hypoTips');
+  if(!box) return;
+  if(box.classList.contains('hidden')) box.classList.remove('hidden');
+  else box.classList.add('hidden');
 }
 
 /* ---------- FEEDBACK ---------- */
 function checkTraining(){
-  let wrong = 0;
-  trainingRows.forEach(r=>{
-    const checked = document.getElementById('chk_'+r.nr).checked;
-    const cell = document.getElementById('fb_'+r.nr);
+  var wrong = 0;
+  for (var i=0; i<trainingRows.length; i++){
+    var r = trainingRows[i];
+    var checked = !!document.getElementById('chk_'+r.nr).checked;
+    var cell = document.getElementById('fb_'+r.nr);
     if(checked === r.correctWrong){
       cell.textContent = '✅';
       cell.className = 'center ok';
@@ -227,26 +228,27 @@ function checkTraining(){
       cell.className = 'center bad';
       wrong++;
     }
-  });
-  const result = document.getElementById('trainResult');
+  }
+  var result = document.getElementById('trainResult');
   if(wrong === 0){
-    result.innerHTML = `<span class="ok">Super!</span> Ihr habt alle fehlerhaften Entscheidungen korrekt markiert.`;
+    result.innerHTML = '<span class="ok">Super!</span> Ihr habt alle fehlerhaften Entscheidungen korrekt markiert.';
     trainingOK = true;
   }else{
-    result.innerHTML = `<span class="bad">Noch nicht ganz:</span> ${wrong} Markierung(en) stimmen noch nicht. Prüft Datum/Frische-Hinweise genauer.`;
+    result.innerHTML = '<span class="bad">Noch nicht ganz:</span> '+wrong+' Markierung(en) stimmen noch nicht. Prüft Datum/Frische-Hinweise genauer.';
     trainingOK = false;
   }
   updateCompletionStatus();
 }
 
 function checkHypothesis(){
-  const text = (document.getElementById('hypo').value + ' ' + document.getElementById('evidence').value).toLowerCase();
-  const badKeys = ['sticker','aufkleber','sonderpreis','rabatt']; // Merkmal, das Beep fälschlich nutzt
-  const goodKeys = ['mhd','haltbar','datum','haltbarkeit','frisch','lieferung','gebacken','ernte'];
-  const mentionsBad = badKeys.some(k => text.includes(k));
-  const mentionsGood = goodKeys.some(k => text.includes(k));
-  const res = document.getElementById('hypoResult');
+  var text = (document.getElementById('hypo').value + ' ' + document.getElementById('evidence').value).toLowerCase();
+  var badKeys = ['sticker','aufkleber','sonderpreis','rabatt'];
+  var goodKeys = ['mhd','haltbar','datum','haltbarkeit','frisch','lieferung','gebacken','ernte'];
 
+  var mentionsBad = badKeys.some(function(k){ return text.indexOf(k) !== -1; });
+  var mentionsGood = goodKeys.some(function(k){ return text.indexOf(k) !== -1; });
+
+  var res = document.getElementById('hypoResult');
   if(mentionsBad && mentionsGood){
     res.innerHTML = '✅ Gute Richtung: Ihr benennt das <em>verwechselte Merkmal</em> und das <em>eigentlich relevante Kriterium</em> in eurer Vermutung.';
     res.className = 'result ok';
@@ -268,16 +270,17 @@ function checkHypothesis(){
 }
 
 function checkReflection(){
-  const t1 = document.getElementById('ref1').innerText.toLowerCase();
-  const t2 = document.getElementById('ref2').innerText.toLowerCase();
-  // Kernideen: (1) Maßnahmen/Lösungen im Markt- & Dev-Kontext, (2) Sicherheit/Zuverlässigkeit allgemein
-  const keys1 = ['daten', 'training', 'prüfung', 'kontrolle', 'aufsicht', 'valid', 'test', 'regel', 'verantwort'];
-  const has1 = keys1.some(k => t1.includes(k));
-  const keys2 = ['zuverläss', 'sicher', 'tests', 'audit', 'monitor', 'update', 'erklär', 'vielfalt', 'blind', 'feedback'];
-  const has2 = keys2.some(k => t2.includes(k));
+  var t1 = (document.getElementById('ref1').innerText || '').toLowerCase();
+  var t2 = (document.getElementById('ref2').innerText || '').toLowerCase();
 
-  const res = document.getElementById('refResult');
-  let msg = '';
+  var keys1 = ['daten','training','prüfung','kontrolle','aufsicht','valid','test','regel','verantwort'];
+  var has1 = keys1.some(function(k){ return t1.indexOf(k) !== -1; });
+
+  var keys2 = ['zuverläss','sicher','tests','audit','monitor','update','erklär','vielfalt','blind','feedback'];
+  var has2 = keys2.some(function(k){ return t2.indexOf(k) !== -1; });
+
+  var res = document.getElementById('refResult');
+  var msg = '';
   msg += has1 ? '✅ (1) Maßnahmen erkannt. ' : '🟡 (1) Ergänzt konkrete Maßnahmen (bessere Daten, Kontrolle, Tests, Verantwortung). ';
   msg += has2 ? '✅ (2) Schritte für Zuverlässigkeit/Sicherheit genannt.' : '🟡 (2) Denkt an Tests, Monitoring, Erklärbarkeit, Updates, Datenvielfalt.';
   res.textContent = msg;
@@ -288,32 +291,36 @@ function checkReflection(){
 
 /* ---------- ABSCHLUSS-LOGIK ---------- */
 function updateCompletionStatus(){
-  const allDone = trainingOK && hypoOK && reflectionOK;
-  document.getElementById('finalCongrats').classList.toggle('hidden', !allDone);
+  var allDone = trainingOK && hypoOK && reflectionOK;
+  var box = document.getElementById('finalCongrats');
+  if(!box) return;
+  box.classList.toggle('hidden', !allDone);
 }
 
 /* ---------- LOCAL STORAGE ---------- */
 function saveAll(){
-  const data = {};
-  trainingRows.forEach(r=>{
-    data['chk_'+r.nr] = document.getElementById('chk_'+r.nr).checked;
-    data['why_'+r.nr] = document.getElementById('why_'+r.nr).value;
-  });
-  data.hypo = document.getElementById('hypo').value;
-  data.evidence = document.getElementById('evidence').value;
-  data.ref1 = document.getElementById('ref1').innerHTML;
-  data.ref2 = document.getElementById('ref2').innerHTML;
+  var data = {};
+  for (var i=0; i<trainingRows.length; i++){
+    var r = trainingRows[i];
+    data['chk_'+r.nr] = !!document.getElementById('chk_'+r.nr).checked;
+    data['why_'+r.nr] = document.getElementById('why_'+r.nr).value || '';
+  }
+  data.hypo = document.getElementById('hypo').value || '';
+  data.evidence = document.getElementById('evidence').value || '';
+  data.ref1 = document.getElementById('ref1').innerHTML || '';
+  data.ref2 = document.getElementById('ref2').innerHTML || '';
   localStorage.setItem('beep_worksheet_final', JSON.stringify(data));
   alert('Gespeichert (nur auf diesem Gerät).');
 }
 function loadAll(){
-  const raw = localStorage.getItem('beep_worksheet_final');
+  var raw = localStorage.getItem('beep_worksheet_final');
   if(!raw){ alert('Kein Speicherstand gefunden.'); return; }
-  const data = JSON.parse(raw);
-  trainingRows.forEach(r=>{
-    if(typeof data['chk_'+r.nr] !== 'undefined') document.getElementById('chk_'+r.nr).checked = data['chk_'+r.nr];
-    if(typeof data['why_'+r.nr] !== 'undefined') document.getElementById('why_'+r.nr].value = data['why_'+r.nr];
-  });
+  var data = JSON.parse(raw);
+  for (var i=0; i<trainingRows.length; i++){
+    var r = trainingRows[i];
+    if(typeof data['chk_'+r.nr] !== 'undefined') document.getElementById('chk_'+r.nr').checked = !!data['chk_'+r.nr];
+    if(typeof data['why_'+r.nr] !== 'undefined') document.getElementById('why_'+r.nr').value = data['why_'+r.nr];
+  }
   document.getElementById('hypo').value = data.hypo || '';
   document.getElementById('evidence').value = data.evidence || '';
   document.getElementById('ref1').innerHTML = data.ref1 || '';
@@ -326,10 +333,15 @@ function resetAll(){
   location.reload();
 }
 
-/* ---------- INIT ---------- */
-document.addEventListener('DOMContentLoaded', () => {
-  buildTraining();
-});
+/* ---------- INIT (robust) ---------- */
+function init(){
+  try{ buildTraining(); }catch(e){ console.error(e); }
+}
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', init);
+}else{
+  init();
+}
 </script>
 </body>
 </html>
