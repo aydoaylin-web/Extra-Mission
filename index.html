@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Beep im Supermarkt – Interaktives Arbeitsblatt</title>
+<title>🧩 Extra-Mission: Beep im Supermarkt</title>
 <style>
   :root{
     --bg:#f6f7fb; --paper:#ffffff; --ink:#0f172a; --muted:#475569;
     --accent:#0ea5e9; --ok:#16a34a; --warn:#dc2626; --line:#e5e7eb; --soft:#f0f9ff;
   }
   @page{ size:A4; margin:14mm; }
-  @media print{ .controls{display:none!important;} .sheet{box-shadow:none;} .hint{display:none;} }
+  @media print{ .controls{display:none!important;} .sheet{box-shadow:none;} .hint{display:none;} details{display:none;} }
   *{ box-sizing:border-box; }
   body{ margin:0; background:var(--bg); color:var(--ink);
         font:15px/1.6 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Color Emoji"; }
@@ -47,6 +47,7 @@
           background:linear-gradient(#ffffff,#ffffff) padding-box,
                      repeating-linear-gradient(transparent, transparent 22px, #e5e7eb 23px) border-box; }
   .footnote{ font-size:12px; color:var(--muted); margin-top:10px; }
+  details.callout summary{ cursor:pointer; font-weight:600; }
 </style>
 </head>
 <body>
@@ -61,11 +62,12 @@
     <div class="header">
       <div class="icon">🛒</div>
       <div>
-        <h1>Beep im Supermarkt – Interaktives Arbeitsblatt</h1>
+        <h1>🧩 Extra-Mission: Beep im Supermarkt</h1>
         <p class="lead">Bonus-Aufgabe zum Escape Game — Interaktive Offline-Version</p>
       </div>
     </div>
 
+    <!-- Einstiegstext (Callout) -->
     <div class="callout">
       <p>
         Nachdem Beep in der letzten Mission bereits trainiert wurde, gefährliche von harmlosen Robotern zu unterscheiden,
@@ -110,52 +112,46 @@
       <div id="trainResult" class="result"></div>
     </div>
 
-    <!-- Vermutung -->
+    <!-- Hypothese -->
     <div class="section">
-      <h2>📍 Vermutung</h2>
-      <p><strong>Wonach klassifiziert Beep?</strong> Formuliert eine Vermutung und stützt sie mit 2–3 Beispielen (Nummern) aus der Tabelle.</p>
-      <textarea id="hypo" rows="3" placeholder="Vermutung: Beep achtet vor allem auf …"></textarea>
+      <h2>📍 Hypothese</h2>
+      <p>Nachdem ihr in der letzten Aufgabe herausgefunden habt, dass Beep Produkte falsch einordnet, merkt ihr: Das passiert nicht zufällig, sondern nach einer bestimmten Regel. Nur leider ist diese Regel falsch und führt zu fehlerhaften Vorhersagen.</p>
+      <p><strong>Auftrag:</strong> Wonach klassifiziert Beep? Formuliert eine Vermutung und stützt sie mit <strong>2–3 Beispielen (Nummern)</strong> aus der Tabelle.</p>
+
+      <textarea id="hypo" rows="3" placeholder="Hypothese: Beep achtet vor allem auf …"></textarea>
       <input id="evidence" type="text" placeholder="Belege: z. B. Nr. 1 und 4 zeigen …" />
       <div class="controls">
-        <button type="button" onclick="checkHypothesis()">💡 Vermutung prüfen (sanft)</button>
+        <button type="button" onclick="checkHypothesis()">💡 Hypothese prüfen (sanft)</button>
       </div>
       <div id="hypoResult" class="result"></div>
-      <div class="hint">Hinweis: Die Vermutung wird nur auf Schlüsselwörter geprüft – perfekt muss sie nicht sein.</div>
-    </div>
+      <div class="hint">Hinweis: Die Hypothese wird nur sanft geprüft (Schlüsselwörter). Perfekt muss sie nicht sein.</div>
 
-    <!-- Teil 2 -->
-    <div class="section">
-      <h2>🧪 Teil 2 – Regel an neuen Beispielen testen</h2>
-      <div class="table-card">
-        <table id="testTable">
-          <thead>
-            <tr>
-              <th style="width:60px;">Prod.</th>
-              <th>Beschreibung</th>
-              <th style="width:180px;">Beeps Entscheidung (vermutet)</th>
-              <th style="width:180px;">Eure Entscheidung</th>
-              <th>Begründung</th>
-              <th style="width:80px;" class="center">Feedback</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-      <div class="controls">
-        <button type="button" onclick="checkTest()">✅ Feedback zu Teil 2</button>
-      </div>
-      <div id="testResult" class="result"></div>
+      <!-- Hilfestellungen (aufklappbar) -->
+      <details class="callout" style="margin-top:10px;">
+        <summary>💡 Hilfestellungen – Beep im Supermarkt <span class="muted">(nur nutzen, wenn ihr feststeckt)</span></summary>
+        <div style="margin-top:8px;">
+          <p>🔎 <strong>Tipp 1:</strong> Schaut euch genau an, <em>welche Merkmale auf den Verpackungen immer wieder vorkommen</em>.</p>
+          <p>🔎 <strong>Tipp 2:</strong> Überlegt: Hat Beep vielleicht ein <em>einzelnes Merkmal als Regel gelernt</em>, obwohl es nicht immer passt?</p>
+          <p>🔎 <strong>Tipp 3:</strong> Vergleicht frische und abgelaufene Produkte: <em>Gibt es Stellen, wo Beeps Entscheidung unlogisch ist?</em></p>
+          <p>🔎 <strong>Tipp 4:</strong> Wenn ihr denkt: „Das passt doch gar nicht!“ → Markiert es und schreibt auf, <em>warum es falsch sein könnte</em>.</p>
+          <p class="muted">ℹ️ Hinweis: Es gibt genau <strong>vier Fehler</strong> im Datensatz.</p>
+        </div>
+      </details>
     </div>
 
     <!-- Reflexion -->
     <div class="section">
-      <h2>💬 Reflexion – Warum das wichtig ist</h2>
-      <p>1. Warum können fehlerhafte Trainingsdaten im Alltag ernsthafte Folgen haben (Gesundheit, Sicherheit, Fairness, Verschwendung)?</p>
+      <h2>💬 Reflexion</h2>
+      <p>1. Wie wir gesehen haben, hat Beep aufgrund fehlerhafter Trainingsdaten eine falsche Regel gelernt. <br>
+         <em>Welche Maßnahmen würdet ihr als Marktleiter:in oder Entwickler:in ergreifen, um sowas zu vermeiden/verhindern?</em></p>
       <div contenteditable="true" id="ref1" class="lines"></div>
-      <p>2. Welche Maßnahmen können verhindern, dass ein Roboter eine falsche Regel lernt?</p>
+
+      <p>2. Fehlerhafte Regeln können überall Konsequenzen haben. <br>
+         <em>Welche Schritte würdet ihr unternehmen, um sicherzustellen, dass ein Roboter oder KI-System zuverlässig und sicher arbeitet?</em></p>
       <div contenteditable="true" id="ref2" class="lines"></div>
+
       <div class="controls">
-        <button type="button" onclick="checkReflection()">💡 Reflexion prüfen (sanft)</button>
+        <button type="button" onclick="checkReflection()">💡 Sanftes Feedback zur Reflexion</button>
       </div>
       <div id="refResult" class="result"></div>
       <div class="footnote">Notiz: Die Reflexion wird nur auf Schlüsselideen geprüft. Es gibt viele richtige Antworten.</div>
@@ -184,16 +180,6 @@ const trainingRows = [
   {nr:10, desc:'🥕 Gemüse (regional), <strong>Ernte heute</strong>',                                                beep:'frisch',     correctWrong:false},
 ];
 
-// ---------- TESTFÄLLE ----------
-const testRows = [
-  {id:'A', desc:'🍫 Schokolade mit <span class="sticker st-red">Sonderpreis</span>, Produktion letzte Woche',
-   beep:'abgelaufen', correct:'frisch'},
-  {id:'B', desc:'🧃 Saft (ohne Sticker), MHD: <strong>2021</strong>',
-   beep:'frisch', correct:'abgelaufen'},
-  {id:'C', desc:'🍎 Obstkorb mit <span class="sticker st-green">Bio</span>, „frisch vom Feld“',
-   beep:'frisch', correct:'frisch'},
-];
-
 // ---------- TABELLE AUFBAUEN ----------
 function buildTraining(){
   const tbody = document.querySelector('#trainTable tbody');
@@ -206,27 +192,6 @@ function buildTraining(){
       <td class="center"><input type="checkbox" id="chk_${r.nr}" /></td>
       <td><input type="text" id="why_${r.nr}" placeholder="kurz begründen …" /></td>
       <td class="center" id="fb_${r.nr}" aria-live="polite"></td>
-    `;
-    tbody.appendChild(tr);
-  });
-}
-function buildTest(){
-  const tbody = document.querySelector('#testTable tbody');
-  testRows.forEach(r=>{
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${r.id}</td>
-      <td>${r.desc}</td>
-      <td>
-        <label><input type="radio" name="beep_${r.id}" value="frisch"> frisch</label><br/>
-        <label><input type="radio" name="beep_${r.id}" value="abgelaufen"> abgelaufen</label>
-      </td>
-      <td>
-        <label><input type="radio" name="you_${r.id}" value="frisch"> frisch</label><br/>
-        <label><input type="radio" name="you_${r.id}" value="abgelaufen"> abgelaufen</label>
-      </td>
-      <td><input type="text" id="why_${r.id}" placeholder="Begründung (Stichwort)" /></td>
-      <td class="center" id="tfb_${r.id}" aria-live="polite"></td>
     `;
     tbody.appendChild(tr);
   });
@@ -283,29 +248,6 @@ function checkHypothesis(){
   }
 }
 
-function checkTest(){
-  let okCount = 0, done = 0;
-  testRows.forEach(r=>{
-    const b = getSelected('beep_'+r.id);
-    const y = getSelected('you_'+r.id);
-    const cell = document.getElementById('tfb_'+r.id);
-    if(!b || !y){ cell.textContent = '—'; cell.className = 'center'; return; }
-    done++;
-    const bOk = (b === r.beep);
-    const yOk = (y === r.correct);
-    cell.textContent = (bOk ? '🤖✅' : '🤖❌') + (yOk ? ' | Ihr: ✅' : ' | Ihr: ❌');
-    cell.className = 'center ' + (yOk ? 'ok':'bad');
-    if(yOk) okCount++;
-  });
-  const res = document.getElementById('testResult');
-  if(done === 0){ res.textContent = 'Wählt zuerst Entscheidungen aus.'; return; }
-  if(okCount === testRows.length){
-    res.innerHTML = `<span class="ok">Top:</span> Eure Entscheidungen bei A–C passen!`;
-  }else{
-    res.innerHTML = `<span class="bad">Hinweis:</span> Prüft A–C nochmals gegen eure Vermutung (achtet auf Datum/Frische-Hinweise).`;
-  }
-}
-
 function checkReflection(){
   const t1 = document.getElementById('ref1').innerText.toLowerCase();
   const t2 = document.getElementById('ref2').innerText.toLowerCase();
@@ -329,18 +271,13 @@ function saveAll(){
   });
   data.hypo = document.getElementById('hypo').value;
   data.evidence = document.getElementById('evidence').value;
-  ['A','B','C'].forEach(id=>{
-    data['beep_'+id] = getSelected('beep_'+id);
-    data['you_'+id]  = getSelected('you_'+id);
-    data['why_'+id]  = document.getElementById('why_'+id).value;
-  });
   data.ref1 = document.getElementById('ref1').innerHTML;
   data.ref2 = document.getElementById('ref2').innerHTML;
-  localStorage.setItem('beep_worksheet', JSON.stringify(data));
+  localStorage.setItem('beep_worksheet_v2', JSON.stringify(data));
   alert('Gespeichert (nur auf diesem Gerät).');
 }
 function loadAll(){
-  const raw = localStorage.getItem('beep_worksheet');
+  const raw = localStorage.getItem('beep_worksheet_v2');
   if(!raw){ alert('Kein Speicherstand gefunden.'); return; }
   const data = JSON.parse(raw);
   trainingRows.forEach(r=>{
@@ -349,25 +286,19 @@ function loadAll(){
   });
   document.getElementById('hypo').value = data.hypo || '';
   document.getElementById('evidence').value = data.evidence || '';
-  ['A','B','C'].forEach(id=>{
-    if(data['beep_'+id]) document.querySelector(`input[name="beep_${id}"][value="${data['beep_'+id]}"]`).checked = true;
-    if(data['you_'+id])  document.querySelector(`input[name="you_${id}"][value="${data['you_'+id]}"]`).checked = true;
-    document.getElementById('why_'+id).value = data['why_'+id] || '';
-  });
   document.getElementById('ref1').innerHTML = data.ref1 || '';
   document.getElementById('ref2').innerHTML = data.ref2 || '';
   alert('Geladen.');
 }
 function resetAll(){
   if(!confirm('Alles löschen?')) return;
-  localStorage.removeItem('beep_worksheet');
+  localStorage.removeItem('beep_worksheet_v2');
   location.reload();
 }
 
 // Start nach DOM-Load
 document.addEventListener('DOMContentLoaded', () => {
   buildTraining();
-  buildTest();
 });
 </script>
 </body>
