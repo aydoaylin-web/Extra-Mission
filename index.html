@@ -13,7 +13,6 @@
   body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,Segoe UI,Roboto,Inter,Arial}
   .container{max-width:980px;margin:28px auto;padding:0 16px}
 
-  /* Header chips (Druck/Save etc.) – rein visuell */
   .topbar{display:flex;gap:12px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
   .chip{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:8px 12px;box-shadow:0 1px 0 rgba(0,0,0,.03);user-select:none}
 
@@ -81,13 +80,6 @@
     <div class="section"><span class="dot"></span> Teil 1 – Beeps Entscheidungen prüfen</div>
     <p class="muted"><b>Auftrag:</b> Schaut zuerst, was er falsch klassifiziert hat. Setzt ein Häkchen bei allen Fehlentscheidungen und begründet kurz.</p>
 
-    <details class="tip">
-      <summary>💡 Tipp anzeigen</summary>
-      <div class="tip-body">
-        🔎 Achte auf wiederkehrende Merkmale (Sticker/Farben/Formulierungen). Vielleicht reagiert Beep nicht auf das MHD, sondern auf etwas anderes.
-      </div>
-    </details>
-
     <div class="table-wrap">
       <table id="t1">
         <thead>
@@ -126,15 +118,17 @@
     <button class="btn" type="button" id="auswerten" onclick="checkTeil1()">✅ Auswerten</button>
     <div id="feedback1" class="feedback"></div>
 
+    <div class="section"><span class="dot"></span> Hypothese</div>
+    <p class="muted"><b>Auftrag:</b> Nun habt ihr also erkannt, welche Lebensmittel Beep falsch klassifiziert hat.Das ist kein Zufall: Beep folgt lediglich der Regel, die ihm seine Testdaten gegeben. Schaut euch also nochmal die Klassifizerung an und überlegt nach welcher Regel Beep die Lebensmittel klassifiziert, die dafür sorgt, dass er gesunde Lebensmittel als abgelaufen und abgelaufene als gesund klassifiziert.</p>
+
+    <!-- Tipp bei Hypothese -->
     <details class="tip">
-      <summary>💡 Noch ein Tipp</summary>
+      <summary>💡 Tipp anzeigen</summary>
       <div class="tip-body">
-        „Beep behandelt Produkte mit rotem Sticker 🔴 <b>Sonderpreis</b> so, als wären sie abgelaufen – auch wenn das MHD in der Zukunft liegt oder sie frisch sind.“
+        🔎 Achte auf wiederkehrende Merkmale (Sticker/Farben/Formulierungen). Vielleicht reagiert Beep nicht auf das MHD, sondern auf etwas anderes.
       </div>
     </details>
 
-    <div class="section"><span class="dot"></span> Hypothese</div>
-    <p class="muted"><b>Auftrag:</b> Formuliert die Regel und belegt sie mit 2–3 Beispielen (Nr.).</p>
     <textarea id="hypothese" aria-label="Hypothese eingeben"></textarea>
     <button class="btn" type="button" id="checkHypo">✅ Prüfen</button>
     <div id="feedbackHypo" class="feedback"></div>
