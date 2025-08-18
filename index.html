@@ -1,347 +1,153 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>🧩 Extra-Mission: Beep im Supermarkt</title>
-<style>
-  :root{
-    --bg:#f6f7fb; --paper:#ffffff; --ink:#0f172a; --muted:#475569;
-    --accent:#0ea5e9; --ok:#16a34a; --warn:#dc2626; --line:#e5e7eb; --soft:#f0f9ff;
-  }
-  @page{ size:A4; margin:14mm; }
-  @media print{ .controls{display:none!important;} .sheet{box-shadow:none;} .hint{display:none;} .toggle-only{display:none!important;} }
-  *{ box-sizing:border-box; }
-  body{ margin:0; background:var(--bg); color:var(--ink);
-        font:15px/1.6 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Color Emoji"; }
-  .sheet{ max-width:1000px; margin:20px auto; background:var(--paper); border-radius:16px; padding:20px 20px 28px;
-          box-shadow:0 12px 36px rgba(2,6,23,.08); }
-  .controls{ display:flex; gap:10px; margin:0 0 14px; flex-wrap:wrap; }
-  button{ appearance:none; border:1px solid var(--line); background:#fff; padding:9px 12px; border-radius:10px; cursor:pointer; }
-  button:hover{ background:#f9fafb; }
-  .header{ display:flex; align-items:center; gap:12px; margin:6px 0 10px; }
-  .icon{ width:44px; height:44px; border-radius:12px; display:grid; place-items:center; font-size:24px;
-         background:linear-gradient(135deg,#e0f2fe,#fff); border:1px solid #bae6fd; }
-  h1{ font-size:24px; margin:0; }
-  .lead{ color:var(--muted); margin:6px 0 0; }
-  .callout{ background:var(--soft); border:1px solid #bae6fd; padding:10px 12px; border-radius:12px; margin:10px 0 16px; }
-  .section{ margin:18px 0 8px; }
-  .section h2{ font-size:18px; margin:0 0 8px; }
-  .table-card{ border:1px solid var(--line); border-radius:12px; overflow:hidden; background:#fff; }
-  table{ width:100%; border-collapse:collapse; }
-  th,td{ padding:9px 10px; border-bottom:1px solid var(--line); vertical-align:top; text-align:left; }
-  thead th{ background:#f9fafb; font-weight:600; }
-  tbody tr:nth-child(odd){ background:#fcfcff; }
-  .center{ text-align:center; }
-  .ok{ color:var(--ok); font-weight:600; }
-  .bad{ color:var(--warn); font-weight:600; }
-  .muted{ color:var(--muted); }
-  .sticker{ display:inline-flex; align-items:center; gap:6px; font-size:12px; border-radius:999px; padding:2px 8px; border:1px solid var(--line); background:#fff; }
-  .st-red::before{ content:""; width:10px; height:10px; border-radius:50%; background:#ef4444; display:inline-block; }
-  .st-green::before{ content:""; width:10px; height:10px; border-radius:50%; background:#22c55e; display:inline-block; }
-  textarea, input[type="text"]{ width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:8px; font:inherit; }
-  .hint{ font-size:12px; color:var(--muted); margin-top:6px; }
-  .result{ margin-top:8px; padding:8px 10px; border-radius:10px; border:1px solid var(--line); background:#fff; }
-  .pill{ display:inline-block; padding:2px 8px; border-radius:999px; background:#f1f5f9; border:1px solid #line; font-size:12px; color:#111827; }
-  .lines{ border:1px dashed var(--line); border-radius:10px; padding:10px; min-height:110px;
-          background:linear-gradient(#ffffff,#ffffff) padding-box,
-                     repeating-linear-gradient(transparent, transparent 22px, #e5e7eb 23px) border-box; }
-  .footnote{ font-size:12px; color:var(--muted); margin-top:10px; }
-  .hidden{ display:none !important; }
-</style>
+  <meta charset="UTF-8">
+  <title>Beep im Supermarkt – Zusatzaufgabe</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      line-height: 1.5;
+    }
+    h2 {
+      margin-top: 30px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background: #f5f5f5;
+    }
+    textarea {
+      width: 95%;
+      height: 40px;
+    }
+    .button {
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .button:hover {
+      background: #0056b3;
+    }
+    .hidden {
+      display: none;
+    }
+    .tip-box, .feedback-box, .reflection-box, .final-box {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-top: 10px;
+      background: #f9f9f9;
+    }
+  </style>
 </head>
 <body>
-  <div class="sheet">
-    <div class="controls">
-      <button type="button" onclick="window.print()">🖨️ Drucken / PDF</button>
-      <button type="button" onclick="saveAll()">💾 Zwischenspeichern</button>
-      <button type="button" onclick="loadAll()">↩️ Laden</button>
-      <button type="button" onclick="resetAll()">🗑️ Alles löschen</button>
-    </div>
 
-    <div class="header">
-      <div class="icon">🛒</div>
-      <div>
-        <h1>🧩 Extra-Mission: Beep im Supermarkt</h1>
-        <p class="lead">Bonus-Aufgabe zum Escape Game — Interaktive Offline-Version</p>
-      </div>
-    </div>
+  <h1>🚀 Zusatzaufgabe – Beep im Supermarkt</h1>
 
-    <!-- Einstiegstext -->
-    <div class="callout">
-      <p>
-        Nachdem Beep in der letzten Mission bereits trainiert wurde, gefährliche von harmlosen Robotern zu unterscheiden,
-        erhielt er nun seinen ersten richtigen Job in der Praxis: den Einsatz im Supermarkt. Dort soll er Kund:innen
-        unterstützen, indem er zuverlässig erkennt, welche Produkte frisch und welche abgelaufen sind.
-      </p>
-      <p>
-        Doch die Lage spitzt sich zu: Beeps Entscheidungen wirken merkwürdig. Frische Ware wandert in den Müll,
-        während abgelaufene Produkte unbehelligt im Regal bleiben. Offensichtlich sind in seinen Trainingsdaten Fehler
-        verborgen, die er nun unbemerkt übernommen hat.
-      </p>
-      <p>
-        <strong>Eure Mission:</strong> Analysiert Beeps Trainingsdaten, deckt die Fehlklassifizierungen auf,
-        formuliert eine mögliche Entscheidungsregel – und überprüfe sie. Euer Feedback ist entscheidend,
-        um Beep wieder zuverlässig arbeiten zu lassen.
-      </p>
-      <span class="pill">Offline nutzbar</span> <span class="pill">Direktes Feedback</span>
-    </div>
+  <p>
+    Nachdem Beep in der letzten Mission bereits trainiert wurde, gefährliche von harmlosen Robotern zu unterscheiden,
+    erhielt er nun seinen ersten richtigen Job in der Praxis: den Einsatz im Supermarkt. Dort soll er Kund:innen
+    unterstützen, indem er zuverlässig erkennt, welche Produkte frisch und welche abgelaufen sind.
+  </p>
+  <p>
+    Doch die Lage spitzt sich zu: Beeps Entscheidungen wirken merkwürdig. Frische Ware wandert in den Müll, während
+    abgelaufene Produkte unbehelligt im Regal bleiben. Offensichtlich sind in seinen Trainingsdaten Fehler verborgen,
+    die er nun unbemerkt übernommen hat.
+  </p>
+  <p>
+    Deine Mission: Analysiere Beeps Trainingsdaten, decke die Fehlklassifizierungen auf, formuliere eine mögliche
+    Entscheidungsregel – und überprüfe sie an neuen Fällen. Euer Feedback ist entscheidend, um Beep wieder zuverlässig
+    arbeiten zu lassen.
+  </p>
 
-    <!-- Teil 1 -->
-    <div class="section">
-      <h2>🔍 Teil 1 – Beeps Trainingsdaten prüfen</h2>
-      <p><strong>Auftrag:</strong> Setzt ein Häkchen bei den Entscheidungen, die ihr für <em>falsch</em> haltet, und begründet kurz.</p>
-      <div class="table-card">
-        <table id="trainTable">
-          <thead>
-            <tr>
-              <th style="width:42px;">Nr.</th>
-              <th>Produktbeschreibung</th>
-              <th style="width:140px;">Beeps Entscheidung</th>
-              <th style="width:120px;" class="center">Fehler?</th>
-              <th>Eure Begründung</th>
-              <th style="width:80px;" class="center">Feedback</th>
-            </tr>
-          </thead>
-          <tbody><!-- JS füllt hier --></tbody>
-        </table>
-      </div>
-      <div class="controls">
-        <button type="button" onclick="checkTraining()">✅ Feedback zu Teil 1</button>
-      </div>
-      <div id="trainResult" class="result" aria-live="polite"></div>
-    </div>
+  <h2>🔍 Teil 1 – Beeps Trainingsdaten prüfen</h2>
+  <p>Auftrag: Setzt ein Häkchen bei den Entscheidungen, die ihr für falsch haltet, und begründet kurz.</p>
 
-    <!-- Hypothese -->
-    <div class="section">
-      <h2>📍 Hypothese</h2>
-      <p>Nachdem ihr in der letzten Aufgabe herausgefunden habt, dass Beep Produkte falsch einordnet, merkt ihr: Das passiert nicht zufällig, sondern nach einer bestimmten Regel. Nur leider ist diese Regel falsch und führt zu fehlerhaften Vorhersagen.</p>
-      <p><strong>Auftrag:</strong> Wonach klassifiziert Beep? Formuliert eine Vermutung und stützt sie mit <strong>2–3 Beispielen (Nummern)</strong> aus der Tabelle.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Nr.</th>
+        <th>Produktbeschreibung</th>
+        <th>Beeps Entscheidung</th>
+        <th>Fehler?</th>
+        <th>Eure Begründung</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>🥛 Joghurt mit Sonderpreis, MHD: 15.01.2026</td><td>abgelaufen</td><td><input type="checkbox"></td><td><textarea></textarea></td></tr>
+      <tr><td>2</td><td>🥛 Milch (ohne Sticker), MHD: 16.08.2025 (gestern)</td><td>abgelaufen</td><td><input type="checkbox"></td><td><textarea></textarea></td></tr>
+      <tr><td>3</td><td>🧃 Saft mit Bio, MHD: 10.05.2026</td><td>frisch</td><td><input type="checkbox"></td><td><textarea></textarea></td></tr>
+      <tr><td>4</td><td>🍞 Brot mit Sonderpreis, heute frisch gebacken</td><td>abgelaufen</td><td><input type="checkbox"></td><td><textarea></textarea></td></tr>
+      <tr><td>5</td><td>🧀 Käse (ohne Sticker), MHD: 01.11.2023</td><td>abgelaufen</td><td><input type="checkbox"></td><td><textarea></textarea></td></tr>
+      <tr><td>6</td><td>🍎 Obstschale mit Sonderpreis, Lieferung heute</td><td>abgelaufen</td><td><input type="checkbox"></td><td><textarea></textarea></td></tr>
+      <tr><td>7</td><td>🧈 Butter mit Bio, MHD: 01.03.2026</td><td>frisch</td><td><input type="checkbox"></td><td><textarea></textarea></td></tr>
+      <tr><td>8</td><td>🥩 Wurst (ohne Sticker), MHD: 30.09.2022</td><td>abgelaufen</td><td><input type="checkbox"></td><td><textarea></textarea></td></tr>
+      <tr><td>9</td><td>🍪 Kekse mit Sonderpreis, MHD: 31.12.2026</td><td>abgelaufen</td><td><input type="checkbox"></td><td><textarea></textarea></td></tr>
+      <tr><td>10</td><td>🥕 Gemüse (regional), Ernte heute</td><td>frisch</td><td><input type="checkbox"></td><td><textarea></textarea></td></tr>
+    </tbody>
+  </table>
 
-      <textarea id="hypo" rows="3" placeholder="Hypothese: Beep achtet vor allem auf …"></textarea>
-      <input id="evidence" type="text" placeholder="Belege: z. B. Nr. 1 und 4 zeigen …" />
-      <div class="controls">
-        <button type="button" onclick="checkHypothesis()">💡 Hypothese prüfen (sanft)</button>
-        <button type="button" class="toggle-only" onclick="toggleHypoTips()">🔎 Hilfestellungen anzeigen/ausblenden</button>
-      </div>
-      <div id="hypoResult" class="result" aria-live="polite"></div>
-      <div class="hint">Hinweis: Die Hypothese wird nur sanft geprüft (Schlüsselwörter). Perfekt muss sie nicht sein.</div>
-
-      <!-- Hilfestellungen (per Button ein/ausblendbar) -->
-      <div id="hypoTips" class="callout hidden">
-        <ul style="margin:0 0 8px 18px;">
-          <li>Schaut euch genau an, <em>welche Merkmale auf den Verpackungen immer wieder vorkommen</em>.</li>
-          <li>Überlegt: Hat Beep vielleicht ein <em>einzelnes Merkmal als Regel gelernt</em>, obwohl es nicht immer passt?</li>
-          <li>Vergleicht frische und abgelaufene Produkte: <em>Gibt es Stellen, wo Beeps Entscheidung unlogisch ist?</em></li>
-          <li>Wenn ihr denkt: „Das passt doch gar nicht!“ → Markiert es und schreibt auf, <em>warum es falsch sein könnte</em>.</li>
-        </ul>
-        <p class="muted" style="margin:8px 0 0;">ℹ️ Hinweis: Es gibt genau <strong>vier Fehler</strong> im Datensatz.</p>
-      </div>
-    </div>
-
-    <!-- Reflexion -->
-    <div class="section">
-      <h2>💬 Reflexion</h2>
-
-      <p>1. Wie wir gesehen haben, hat Beep aufgrund fehlerhafter Trainingsdaten eine falsche Regel gelernt.<br>
-        <em>Welche Maßnahmen würdet ihr als Marktleiter:in oder Entwickler:in ergreifen, um sowas zu vermeiden/verhindern?</em></p>
-      <div contenteditable="true" id="ref1" class="lines" aria-label="Antwort zu Reflexion 1"></div>
-
-      <p>2. Fehlerhafte Regeln können überall Konsequenzen haben.<br>
-        <em>Welche Schritte würdet ihr unternehmen, um sicherzustellen, dass ein Roboter oder KI-System zuverlässig und sicher arbeitet?</em></p>
-      <div contenteditable="true" id="ref2" class="lines" aria-label="Antwort zu Reflexion 2"></div>
-
-      <div class="controls">
-        <button type="button" onclick="checkReflection()">💡 Sanftes Feedback zur Reflexion</button>
-      </div>
-      <div id="refResult" class="result" aria-live="polite"></div>
-      <div class="footnote">Notiz: Die Reflexion wird nur auf Schlüsselideen geprüft. Es gibt viele richtige Antworten.</div>
-    </div>
-
-    <!-- Abschluss (automatisch) -->
-    <div id="finalCongrats" class="section hidden" aria-live="polite">
-      <h2>🎉 Abschluss</h2>
-      <p><strong>Herzlichen Glückwunsch!</strong><br>
-      Du hast die gesamte Zusatzaufgabe erfolgreich abgeschlossen. Dabei hast du erkannt, dass Beep nicht zufällig entscheidet, sondern einer (falschen) Regel folgt – genau wie ein KI-Modell, das mit fehlerhaften Trainingsdaten arbeitet. Damit hast du verstanden, wie wichtig <em>supervised learning</em> ist: Nur mit korrekten Beispielen kann eine KI richtige Vorhersagen treffen. 🚀</p>
-    </div>
+  <button class="button" onclick="toggleTips()">💡 Hilfestellungen anzeigen</button>
+  <div id="tips" class="tip-box hidden">
+    <p><b>Hilfestellungen – Beep im Supermarkt</b> (nur nutzen, wenn ihr feststeckt)</p>
+    <ul>
+      <li>🔎 Tipp 1: Schaut euch genau an, welche Merkmale auf den Verpackungen immer wieder vorkommen.</li>
+      <li>🔎 Tipp 2: Überlegt: Hat Beep vielleicht ein einzelnes Merkmal als Regel gelernt, obwohl es nicht immer passt?</li>
+      <li>🔎 Tipp 3: Vergleicht frische und abgelaufene Produkte: Gibt es Stellen, wo Beeps Entscheidung unlogisch ist?</li>
+      <li>🔎 Tipp 4: Wenn ihr denkt: „Das passt doch gar nicht!“ → Markiert es und schreibt auf, warum es falsch sein könnte.</li>
+    </ul>
+    <p><i>Hinweis: Es gibt genau vier Fehler im Datensatz.</i></p>
   </div>
 
-<script>
-/* ---------- TRAININGSDATEN: genau 10 Einträge ---------- */
-const trainingRows = [
-  {nr:1,  desc:'🥛 Joghurt mit <span class="sticker st-red">Sonderpreis</span>, MHD: <strong>15.01.2026</strong>',   beep:'abgelaufen', correctWrong:true},
-  {nr:2,  desc:'🥛 Milch (ohne Sticker), MHD: <strong>16.08.2025</strong> <small>(gestern)</small>',               beep:'abgelaufen', correctWrong:false},
-  {nr:3,  desc:'🧃 Saft mit <span class="sticker st-green">Bio</span>, MHD: <strong>10.05.2026</strong>',          beep:'frisch',     correctWrong:false},
-  {nr:4,  desc:'🍞 Brot mit <span class="sticker st-red">Sonderpreis</span>, <strong>heute frisch gebacken</strong>', beep:'abgelaufen', correctWrong:true},
-  {nr:5,  desc:'🧀 Käse (ohne Sticker), MHD: <strong>01.11.2023</strong>',                                          beep:'abgelaufen', correctWrong:false},
-  {nr:6,  desc:'🍎 Obstschale mit <span class="sticker st-red">Sonderpreis</span>, <strong>Lieferung heute</strong>', beep:'abgelaufen', correctWrong:true},
-  {nr:7,  desc:'🧈 Butter mit <span class="sticker st-green">Bio</span>, MHD: <strong>01.03.2026</strong>',        beep:'frisch',     correctWrong:false},
-  {nr:8,  desc:'🥩 Wurst (ohne Sticker), MHD: <strong>30.09.2022</strong>',                                         beep:'abgelaufen', correctWrong:false},
-  {nr:9,  desc:'🍪 Kekse mit <span class="sticker st-red">Sonderpreis</span>, MHD: <strong>31.12.2026</strong>',    beep:'abgelaufen', correctWrong:true},
-  {nr:10, desc:'🥕 Gemüse (regional), <strong>Ernte heute</strong>',                                                beep:'frisch',     correctWrong:false}
-];
+  <button class="button" onclick="toggleFeedback()">✅ Feedback zu Teil 1</button>
+  <div id="feedback" class="feedback-box hidden">
+    <p>Super gemacht! Ihr habt erkannt, dass Beep bestimmte Merkmale falsch verallgemeinert hat.</p>
+  </div>
 
-/* ---------- STATUS FÜR ABSCHLUSS ---------- */
-let trainingOK = false;
-let hypoOK = false;
-let reflectionOK = false;
+  <h2>📍 Vermutung </h2>
+  <p>Nachdem ihr in der letzten Aufgabe herausgefunden habt, dass Beep Produkte falsch einordnet, merkt ihr: Das passiert nicht zufällig, sondern nach einer bestimmten Regel. Nur leider ist diese Regel falsch und führt zu fehlerhaften Vorhersagen.</p>
+  <p><b>Auftrag:</b> Wonach klassifiziert Beep? Formuliert eine Vermutung und stützt sie mit 2–3 Beispielen (Nummern) aus der Tabelle.</p>
 
-/* ---------- TABELLE AUFBAUEN ---------- */
-function buildTraining(){
-  const tbody = document.querySelector('#trainTable tbody');
-  if(!tbody) return;
-  tbody.innerHTML = '';
-  for (var i=0; i<trainingRows.length; i++){
-    var r = trainingRows[i];
-    var tr = document.createElement('tr');
-    tr.innerHTML =
-      '<td>'+r.nr+'</td>'+
-      '<td>'+r.desc+'</td>'+
-      '<td>'+r.beep+'</td>'+
-      '<td class="center"><input type="checkbox" id="chk_'+r.nr+'"></td>'+
-      '<td><input type="text" id="why_'+r.nr+'" placeholder="kurz begründen …"></td>'+
-      '<td class="center" id="fb_'+r.nr+'" aria-live="polite"></td>';
-    tbody.appendChild(tr);
-  }
-}
+  <button class="button" onclick="toggleReflection()">💭 Reflexionsfragen anzeigen</button>
+  <div id="reflection" class="reflection-box hidden">
+    <ol>
+      <li>Wie wir gesehen haben, hat Beep aufgrund fehlerhafter Trainingsdaten eine falsche Regel gelernt. Welche Maßnahmen würdet ihr als Marktleiter:in oder Entwickler:in ergreifen, um sowas zu vermeiden?</li>
+      <li>Fehlerhafte Regeln können überall Konsequenzen haben. Welche Schritte würdet ihr unternehmen, um sicherzustellen, dass ein KI-System zuverlässig und sicher arbeitet?</li>
+    </ol>
+  </div>
 
-/* ---------- UTILS ---------- */
-function toggleHypoTips(){
-  var box = document.getElementById('hypoTips');
-  if(!box) return;
-  if(box.classList.contains('hidden')) box.classList.remove('hidden');
-  else box.classList.add('hidden');
-}
+  <button class="button" onclick="toggleFinal()">🎉 Abschluss anzeigen</button>
+  <div id="final" class="final-box hidden">
+    <p>🎉 Herzlichen Glückwunsch!<br>
+    Du hast die gesamte Zusatzaufgabe erfolgreich abgeschlossen. Dabei hast du erkannt, dass Beep nicht zufällig entscheidet, sondern einer (falschen) Regel folgt – genau wie ein KI-Modell, das mit fehlerhaften Trainingsdaten arbeitet. Damit hast du verstanden, wie wichtig supervised learning ist: Nur mit korrekten Beispielen kann eine KI richtige Vorhersagen treffen. 🚀</p>
+  </div>
 
-/* ---------- FEEDBACK ---------- */
-function checkTraining(){
-  var wrong = 0;
-  for (var i=0; i<trainingRows.length; i++){
-    var r = trainingRows[i];
-    var checked = !!document.getElementById('chk_'+r.nr).checked;
-    var cell = document.getElementById('fb_'+r.nr);
-    if(checked === r.correctWrong){
-      cell.textContent = '✅';
-      cell.className = 'center ok';
-    }else{
-      cell.textContent = '❌';
-      cell.className = 'center bad';
-      wrong++;
+  <script>
+    function toggleTips() {
+      document.getElementById("tips").classList.toggle("hidden");
     }
-  }
-  var result = document.getElementById('trainResult');
-  if(wrong === 0){
-    result.innerHTML = '<span class="ok">Super!</span> Ihr habt alle fehlerhaften Entscheidungen korrekt markiert.';
-    trainingOK = true;
-  }else{
-    result.innerHTML = '<span class="bad">Noch nicht ganz:</span> '+wrong+' Markierung(en) stimmen noch nicht. Prüft Datum/Frische-Hinweise genauer.';
-    trainingOK = false;
-  }
-  updateCompletionStatus();
-}
+    function toggleFeedback() {
+      document.getElementById("feedback").classList.toggle("hidden");
+    }
+    function toggleReflection() {
+      document.getElementById("reflection").classList.toggle("hidden");
+    }
+    function toggleFinal() {
+      document.getElementById("final").classList.toggle("hidden");
+    }
+  </script>
 
-function checkHypothesis(){
-  var text = (document.getElementById('hypo').value + ' ' + document.getElementById('evidence').value).toLowerCase();
-  var badKeys = ['sticker','aufkleber','sonderpreis','rabatt'];
-  var goodKeys = ['mhd','haltbar','datum','haltbarkeit','frisch','lieferung','gebacken','ernte'];
-
-  var mentionsBad = badKeys.some(function(k){ return text.indexOf(k) !== -1; });
-  var mentionsGood = goodKeys.some(function(k){ return text.indexOf(k) !== -1; });
-
-  var res = document.getElementById('hypoResult');
-  if(mentionsBad && mentionsGood){
-    res.innerHTML = '✅ Gute Richtung: Ihr benennt das <em>verwechselte Merkmal</em> und das <em>eigentlich relevante Kriterium</em> in eurer Vermutung.';
-    res.className = 'result ok';
-    hypoOK = true;
-  }else if(mentionsBad){
-    res.innerHTML = '🟡 Fast: Ergänzt noch, welches Kriterium wirklich zählt (z.&nbsp;B. MHD/Frische) in eurer Vermutung.';
-    res.className = 'result';
-    hypoOK = false;
-  }else if(mentionsGood){
-    res.innerHTML = '🟡 Gut: Nennt zusätzlich, welches Merkmal Beep verwechselt – so wird eure Vermutung vollständiger.';
-    res.className = 'result';
-    hypoOK = false;
-  }else{
-    res.innerHTML = '❌ Denkt an ein auffälliges Merkmal, das Beep überbewertet (z.&nbsp;B. Sticker), und an das eigentliche Kriterium (MHD/Frische) – formuliert daraus eure Vermutung.';
-    res.className = 'result bad';
-    hypoOK = false;
-  }
-  updateCompletionStatus();
-}
-
-function checkReflection(){
-  var t1 = (document.getElementById('ref1').innerText || '').toLowerCase();
-  var t2 = (document.getElementById('ref2').innerText || '').toLowerCase();
-
-  var keys1 = ['daten','training','prüfung','kontrolle','aufsicht','valid','test','regel','verantwort'];
-  var has1 = keys1.some(function(k){ return t1.indexOf(k) !== -1; });
-
-  var keys2 = ['zuverläss','sicher','tests','audit','monitor','update','erklär','vielfalt','blind','feedback'];
-  var has2 = keys2.some(function(k){ return t2.indexOf(k) !== -1; });
-
-  var res = document.getElementById('refResult');
-  var msg = '';
-  msg += has1 ? '✅ (1) Maßnahmen erkannt. ' : '🟡 (1) Ergänzt konkrete Maßnahmen (bessere Daten, Kontrolle, Tests, Verantwortung). ';
-  msg += has2 ? '✅ (2) Schritte für Zuverlässigkeit/Sicherheit genannt.' : '🟡 (2) Denkt an Tests, Monitoring, Erklärbarkeit, Updates, Datenvielfalt.';
-  res.textContent = msg;
-
-  reflectionOK = has1 && has2;
-  updateCompletionStatus();
-}
-
-/* ---------- ABSCHLUSS-LOGIK ---------- */
-function updateCompletionStatus(){
-  var allDone = trainingOK && hypoOK && reflectionOK;
-  var box = document.getElementById('finalCongrats');
-  if(!box) return;
-  box.classList.toggle('hidden', !allDone);
-}
-
-/* ---------- LOCAL STORAGE ---------- */
-function saveAll(){
-  var data = {};
-  for (var i=0; i<trainingRows.length; i++){
-    var r = trainingRows[i];
-    data['chk_'+r.nr] = !!document.getElementById('chk_'+r.nr).checked;
-    data['why_'+r.nr] = document.getElementById('why_'+r.nr).value || '';
-  }
-  data.hypo = document.getElementById('hypo').value || '';
-  data.evidence = document.getElementById('evidence').value || '';
-  data.ref1 = document.getElementById('ref1').innerHTML || '';
-  data.ref2 = document.getElementById('ref2').innerHTML || '';
-  localStorage.setItem('beep_worksheet_final', JSON.stringify(data));
-  alert('Gespeichert (nur auf diesem Gerät).');
-}
-function loadAll(){
-  var raw = localStorage.getItem('beep_worksheet_final');
-  if(!raw){ alert('Kein Speicherstand gefunden.'); return; }
-  var data = JSON.parse(raw);
-  for (var i=0; i<trainingRows.length; i++){
-    var r = trainingRows[i];
-    if(typeof data['chk_'+r.nr] !== 'undefined') document.getElementById('chk_'+r.nr').checked = !!data['chk_'+r.nr];
-    if(typeof data['why_'+r.nr] !== 'undefined') document.getElementById('why_'+r.nr').value = data['why_'+r.nr];
-  }
-  document.getElementById('hypo').value = data.hypo || '';
-  document.getElementById('evidence').value = data.evidence || '';
-  document.getElementById('ref1').innerHTML = data.ref1 || '';
-  document.getElementById('ref2').innerHTML = data.ref2 || '';
-  alert('Geladen.');
-}
-function resetAll(){
-  if(!confirm('Alles löschen?')) return;
-  localStorage.removeItem('beep_worksheet_final');
-  location.reload();
-}
-
-/* ---------- INIT (robust) ---------- */
-function init(){
-  try{ buildTraining(); }catch(e){ console.error(e); }
-}
-if(document.readyState === 'loading'){
-  document.addEventListener('DOMContentLoaded', init);
-}else{
-  init();
-}
-</script>
 </body>
 </html>
