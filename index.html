@@ -1,147 +1,234 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<title>Beep im Supermarkt – Zusatzaufgabe</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🧩 Extra-Mission: Beep im Supermarkt</title>
 <style>
-  body { font-family: Arial, sans-serif; line-height: 1.5; padding: 20px; background-color: #f9f9f9; }
-  h1, h2 { color: #333; }
-  table { width: 100%; border-collapse: collapse; margin: 15px 0; }
-  th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-  th { background-color: #eee; }
-  .feedback { background: #eef; padding: 10px; margin-top: 10px; border-radius: 5px; display:none; }
-  .btn { background-color: #0ea5e9; color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 5px; margin-top: 10px; }
-  textarea { width: 100%; height: 80px; margin-top: 5px; }
+  :root{
+    --bg:#f6f7fb; --paper:#ffffff; --ink:#0f172a; --muted:#475569; --line:#e5e7eb;
+    --accent:#0ea5e9; --ok:#16a34a; --warn:#dc2626; --soft:#eff6ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,Segoe UI,Roboto,Inter,Arial}
+  .container{max-width:980px;margin:28px auto;padding:0 16px}
+
+  .topbar{display:flex;gap:12px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+  .chip{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:8px 12px;box-shadow:0 1px 0 rgba(0,0,0,.03);user-select:none}
+
+  .title{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.6rem;margin:6px 0 2px}
+  .badge{width:28px;height:28px;display:grid;place-items:center;border-radius:8px;background:#d1fae5}
+
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:0 8px 20px rgba(15,23,42,.04);margin-bottom:18px}
+  .muted{color:var(--muted)}
+  .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+
+  .btn{background:var(--accent);border:1px solid var(--accent);color:#fff;border-radius:10px;padding:10px 14px;cursor:pointer}
+  .btn:focus{outline:2px solid #93c5fd;outline-offset:2px}
+  .btn.secondary{background:var(--paper);color:var(--ink);border-color:var(--line)}
+  .btn:disabled{opacity:.6;cursor:not-allowed}
+
+  .section{display:flex;align-items:center;gap:10px;margin:18px 0 8px;font-size:1.25rem;font-weight:800}
+  .dot{width:10px;height:10px;border-radius:50%;background:#3b82f6}
+
+  .table-wrap{overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:12px}
+  table{width:100%;border-collapse:collapse;min-width:760px}
+  th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  th{background:#fafafa;font-weight:700}
+  tr:last-child td{border-bottom:none}
+  label{cursor:pointer}
+
+  .feedback{display:none;background:#eef; padding:12px;border-radius:10px;margin-top:10px}
+  .ok{color:var(--ok);font-weight:700}
+  .warn{color:var(--warn);font-weight:700}
+
+  textarea{width:100%;min-height:90px;margin-top:6px;border:1px solid var(--line);border-radius:10px;padding:10px;background:#fff}
+
+  /* Tipps als Accordion */
+  details.tip{border:1px solid var(--line);background:var(--paper);border-radius:12px;overflow:hidden;margin:12px 0}
+  details.tip summary{list-style:none;cursor:pointer;padding:12px 14px;font-weight:700;display:flex;align-items:center;gap:8px}
+  details.tip[open] summary{border-bottom:1px solid var(--line);background:var(--soft)}
+  details.tip summary::marker{display:none}
+  .tip-body{padding:12px 14px}
+
+  /* Abschlussbox */
+  #abschluss{background:#ecfdf5;border:1px solid #a7f3d0}
 </style>
 </head>
 <body>
+  <div class="container">
+    <div class="topbar">
+      <div class="chip">🖨️ Drucken / PDF</div>
+      <div class="chip">💾 Zwischenspeichern</div>
+      <div class="chip">⬆️ Laden</div>
+      <div class="chip">🧹 Alles löschen</div>
+    </div>
 
-<h1>🤖 Zusatzaufgabe – Beep im Supermarkt</h1>
+    <div class="title"><div class="badge">🧩</div> Extra-Mission: Beep im Supermarkt</div>
+    <div class="muted" style="margin-bottom:12px">Bonus-Aufgabe zum Escape Game — Interaktive Offline-Version</div>
 
-<p>
-Nachdem Beep in der letzten Mission bereits trainiert wurde, gefährliche von harmlosen Robotern zu unterscheiden, erhielt er nun seinen ersten richtigen Job in der Praxis: den Einsatz im Supermarkt. Dort soll er Kund:innen unterstützen, indem er zuverlässig erkennt, welche Produkte frisch und welche abgelaufen sind.<br><br>
-Doch die Lage spitzt sich zu: Beeps Entscheidungen wirken merkwürdig. Frische Ware wandert in den Müll, während abgelaufene Produkte unbehelligt im Regal bleiben. Offensichtlich sind in seinen Trainingsdaten Fehler verborgen, die er nun unbemerkt übernommen hat.<br><br>
-<b>Deine Mission:</b> Analysiere Beeps Trainingsdaten, decke die Fehlklassifizierungen auf, formuliere eine mögliche Entscheidungsregel – und überprüfe sie an neuen Fällen. Euer Feedback ist entscheidend, um Beep wieder zuverlässig arbeiten zu lassen.
-</p>
+    <div class="card">
+      <p>Nachdem Beep in der letzten Mission bereits trainiert wurde, gefährliche von harmlosen Robotern zu unterscheiden, erhielt er nun seinen ersten richtigen Job in der Praxis: den Einsatz im Supermarkt. Dort soll er den Marktleiter unterstützen, indem er zuverlässig erkennt, welche Produkte frisch und welche abgelaufen sind.</p>
+      <p>Doch die Lage spitzt sich zu: Beeps Entscheidungen wirken merkwürdig. Frische Ware wandert in den Müll, während abgelaufene Produkte unbehelligt im Regal bleiben. Offensichtlich sind in seinen Trainingsdaten Fehler verborgen, die er nun unbemerkt übernommen hat.</p>
+      <p><b>Deine Mission:</b> Analysiere Beeps Trainingsdaten, decke die Fehlklassifizierungen auf, formuliere eine mögliche Entscheidungsregel – und überprüfe sie an neuen Fällen. Euer Feedback ist entscheidend, um Beep wieder zuverlässig arbeiten zu lassen.</p>
+      <div class="cta-row">
+        <button class="btn secondary" type="button">Offline nutzbar</button>
+        <button class="btn" type="button" id="directFeedbackBtn">Direktes Feedback</button>
+      </div>
+    </div>
 
-<hr>
+    <div class="section"><span class="dot"></span> Teil 1 – Beeps Entscheidungen prüfen</div>
+    <p class="muted"><b>Auftrag:</b> Schaut zuerst, was er falsch klassifiziert hat. Setzt ein Häkchen bei allen Fehlentscheidungen und begründet kurz.</p>
 
-<h2>🔍 Teil 1 – Beeps Entscheidungen prüfen</h2>
-<p><b>Auftrag:</b> Ihr wollt Beeps Entscheidungsmechanismus knacken: Schaut zuerst, was er falsch klassifiziert hat. Setzt ein Häkchen bei allen Fehlentscheidungen.</p>
+    <div class="table-wrap">
+      <table id="t1">
+        <thead>
+          <tr>
+            <th style="width:60px">Nr.</th>
+            <th style="width:36%">Produktbeschreibung</th>
+            <th>Beeps Entscheidung</th>
+            <th style="width:120px">Fehler?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>🥛 Joghurt mit 🔴 Sonderpreis, MHD: 15.01.2026</td><td>abgelaufen</td>
+            <td><label><input type="checkbox" data-correct="true"> markieren</label></td></tr>
+          <tr><td>2</td><td>🥛 Milch (ohne Sticker), MHD: 17.08.2025 (gestern)</td><td>abgelaufen</td>
+            <td><label><input type="checkbox" data-correct="false"> markieren</label></td></tr>
+          <tr><td>3</td><td>🧃 Saft mit 🟢 Bio, MHD: 10.05.2026</td><td>frisch</td>
+            <td><label><input type="checkbox" data-correct="false"> markieren</label></td></tr>
+          <tr><td>4</td><td>🍞 Brot mit 🔴 Sonderpreis, heute frisch gebacken</td><td>abgelaufen</td>
+            <td><label><input type="checkbox" data-correct="true"> markieren</label></td></tr>
+          <tr><td>5</td><td>🧀 Käse (ohne Sticker), MHD: 01.11.2023</td><td>abgelaufen</td>
+            <td><label><input type="checkbox" data-correct="false"> markieren</label></td></tr>
+          <tr><td>6</td><td>🍎 Obstschale mit 🔴 Sonderpreis, Lieferung heute</td><td>abgelaufen</td>
+            <td><label><input type="checkbox" data-correct="true"> markieren</label></td></tr>
+          <tr><td>7</td><td>🧈 Butter mit 🟢 Bio, MHD: 01.03.2026</td><td>frisch</td>
+            <td><label><input type="checkbox" data-correct="false"> markieren</label></td></tr>
+          <tr><td>8</td><td>🥩 Wurst (ohne Sticker), MHD: 30.09.2022</td><td>abgelaufen</td>
+            <td><label><input type="checkbox" data-correct="false"> markieren</label></td></tr>
+          <tr><td>9</td><td>🍪 Kekse mit 🔴 Sonderpreis, MHD: 31.12.2026</td><td>abgelaufen</td>
+            <td><label><input type="checkbox" data-correct="true"> markieren</label></td></tr>
+          <tr><td>10</td><td>🥕 Gemüse (regional), Ernte heute</td><td>frisch</td>
+            <td><label><input type="checkbox" data-correct="false"> markieren</label></td></tr>
+        </tbody>
+      </table>
+    </div>
 
-<table>
-<tr>
-  <th>Nr.</th><th>Produktbeschreibung</th><th>Beeps Entscheidung</th><th>Fehler?</th>
-</tr>
-<tr><td>1</td><td>🥛 Joghurt mit 🔴 Sonderpreis, MHD: 15.01.2026</td><td>abgelaufen</td><td><input type="checkbox" data-correct="true"></td></tr>
-<tr><td>2</td><td>🥛 Milch (ohne Sticker), MHD: 17.08.2025 (gestern)</td><td>abgelaufen</td><td><input type="checkbox" data-correct="false"></td></tr>
-<tr><td>3</td><td>🧃 Saft mit 🟢 Bio, MHD: 10.05.2026</td><td>frisch</td><td><input type="checkbox" data-correct="false"></td></tr>
-<tr><td>4</td><td>🍞 Brot mit 🔴 Sonderpreis, heute frisch gebacken</td><td>abgelaufen</td><td><input type="checkbox" data-correct="true"></td></tr>
-<tr><td>5</td><td>🧀 Käse (ohne Sticker), MHD: 01.11.2023</td><td>abgelaufen</td><td><input type="checkbox" data-correct="false"></td></tr>
-<tr><td>6</td><td>🍎 Obstschale mit 🔴 Sonderpreis, Lieferung heute</td><td>abgelaufen</td><td><input type="checkbox" data-correct="true"></td></tr>
-<tr><td>7</td><td>🧈 Butter mit 🟢 Bio, MHD: 01.03.2026</td><td>frisch</td><td><input type="checkbox" data-correct="false"></td></tr>
-<tr><td>8</td><td>🥩 Wurst (ohne Sticker), MHD: 30.09.2022</td><td>abgelaufen</td><td><input type="checkbox" data-correct="false"></td></tr>
-<tr><td>9</td><td>🍪 Kekse mit 🔴 Sonderpreis, MHD: 31.12.2026</td><td>abgelaufen</td><td><input type="checkbox" data-correct="true"></td></tr>
-<tr><td>10</td><td>🥕 Gemüse (regional), Ernte heute</td><td>frisch</td><td><input type="checkbox" data-correct="false"></td></tr>
-</table>
+    <button class="btn" type="button" id="auswerten" onclick="checkTeil1()">✅ Auswerten</button>
+    <div id="feedback1" class="feedback"></div>
 
-<button class="btn" onclick="checkTeil1()">✅ Auswerten</button>
-<div id="feedback1" class="feedback"></div>
+    <div class="section"><span class="dot"></span> Hypothese</div>
+    <p class="muted"><b>Auftrag:</b> Formuliert die Regel und belegt sie mit 2–3 Beispielen (Nr.).</p>
 
-<hr>
+    <!-- Tipp bei Hypothese -->
+    <details class="tip">
+      <summary>💡 Tipp anzeigen</summary>
+      <div class="tip-body">
+        🔎 Achte auf wiederkehrende Merkmale (Sticker/Farben/Formulierungen). Vielleicht reagiert Beep nicht auf das MHD, sondern auf etwas anderes.
+      </div>
+    </details>
 
-<h2>📍 Hypothese</h2>
+    <textarea id="hypothese" aria-label="Hypothese eingeben"></textarea>
+    <button class="btn" type="button" id="checkHypo">✅ Prüfen</button>
+    <div id="feedbackHypo" class="feedback"></div>
 
-<div class="feedback" style="display:block; background:#fff8dc;">
-<b>Hilfestellungen – Beep im Supermarkt (optional)</b><br><br>
-🔎 Tipp 1: Schaut euch genau an, welche Merkmale auf den Verpackungen immer wieder vorkommen.<br>
-🔎 Tipp 2: Hat Beep vielleicht ein einzelnes Merkmal als Regel gelernt, obwohl es nicht immer passt?<br>
-🔎 Tipp 3: Vergleicht frische und abgelaufene Produkte: Gibt es Stellen, wo Beeps Entscheidung unlogisch ist?<br>
-🔎 Tipp 4: Wenn ihr denkt: „Das passt doch gar nicht!“ → Markiert es und notiert, warum es falsch sein könnte.
-</div>
+    <div class="section"><span class="dot"></span> Reflexion</div>
+    <p><b>Frage 1:</b> Was könnte man tun, damit Beep nicht mehr so leicht in die Irre geführt wird?</p>
+    <textarea id="antwort1"></textarea>
+    <button class="btn" type="button" data-ref="1">Antwort prüfen</button>
+    <div id="fb1" class="feedback"></div>
 
-<p><b>Auftrag:</b> Nun habt ihr erkannt, wo Beep falsch klassifiziert hat. Schaut euch diese Fehlentscheidungen noch einmal genau an und überlegt: Nach welcher Regel arbeitet Beep gerade, um zu beurteilen, welche Lebensmittel abgelaufen sind und welche noch gut sind? Formuliert eine Vermutung und belegt sie mit 2–3 Beispielen (Nummern) aus der Tabelle.</p>
+    <p><b>Frage 2:</b> Welche Gefahren entstehen, wenn ein KI-System nach falschen Regeln handelt?</p>
+    <textarea id="antwort2"></textarea>
+    <button class="btn" type="button" data-ref="2">Antwort prüfen</button>
+    <div id="fb2" class="feedback"></div>
 
-<textarea id="hypothese"></textarea>
-<button class="btn" onclick="checkHypothese()">✅ Prüfen</button>
-<div id="feedbackHypo" class="feedback"></div>
-
-<hr>
-
-<h2>💭 Reflexion</h2>
-
-<p><b>Frage 1:</b> Was könnte man tun, damit Beep nicht mehr so leicht in die Irre geführt wird?</p>
-<textarea id="antwort1"></textarea>
-<button class="btn" onclick="checkReflexion(1)">Antwort prüfen</button>
-<div id="fb1" class="feedback"></div>
-
-<p><b>Frage 2:</b> Denkt größer: Welche Gefahren kann es haben, wenn ein KI-System nach falschen Regeln handelt?</p>
-<textarea id="antwort2"></textarea>
-<button class="btn" onclick="checkReflexion(2)">Antwort prüfen</button>
-<div id="fb2" class="feedback"></div>
-
-<hr>
-
-<h2>🎉 Abschluss</h2>
-<div id="abschluss" class="feedback">
-  Herzlichen Glückwunsch! 🎉<br><br>
-  Du hast die gesamte Zusatzaufgabe erfolgreich abgeschlossen. Dabei hast du erkannt, dass Beep nicht zufällig entscheidet, sondern einer (falschen) Regel folgt – genau wie ein KI-Modell, das mit fehlerhaften Trainingsdaten arbeitet.<br><br>
-  Damit hast du verstanden, wie wichtig <b>supervised learning</b> ist: Nur mit korrekten Beispielen kann eine KI richtige Vorhersagen treffen. 🚀
-</div>
+    <div id="abschluss" class="feedback">
+      <b>Herzlichen Glückwunsch! 🎉</b><br><br>
+      Du hast erkannt, dass Beep einer falschen Regel folgt – genau wie ein KI-Modell mit fehlerhaften Trainingsdaten. So wird klar, warum <b>korrekte Trainingsdaten</b> bei supervised learning entscheidend sind.
+    </div>
+  </div>
 
 <script>
+/* ===== Teil 1: max. 3 Versuche + Lösung nach dem 3. ===== */
+let t1Attempts = 0;
+const t1Max = 3;
+
+function lockTeil1(){
+  document.querySelectorAll('input[type=checkbox][data-correct]').forEach(b => b.disabled = true);
+  const btn = document.getElementById('auswerten');
+  if (btn) btn.disabled = true;
+}
+
 function checkTeil1(){
-  const boxes = document.querySelectorAll("input[type=checkbox]");
-  let correct = true;
-  let fehler = [];
-  boxes.forEach((box, i)=>{
-    const isCorrect = box.dataset.correct === "true";
-    if(box.checked !== isCorrect){
-      correct = false;
-      fehler.push(i+1);
+  const boxes = document.querySelectorAll('input[type=checkbox][data-correct]');
+  const fb = document.getElementById('feedback1');
+
+  let allRight = true;
+  let correctChecked = 0;
+
+  boxes.forEach(box => {
+    const shouldBeChecked = box.dataset.correct === "true";
+    if (shouldBeChecked && box.checked) correctChecked++;
+    if (box.checked !== shouldBeChecked) allRight = false;
+  });
+
+  t1Attempts++;
+  fb.style.display = "block";
+
+  if (allRight){
+    fb.innerHTML = "✅ Super! Du hast alle vier Fehler <b>(1, 4, 6, 9)</b> korrekt erkannt.";
+    lockTeil1();
+    return;
+  }
+
+  if (t1Attempts < t1Max){
+    fb.innerHTML =
+      `❌ Nicht ganz. (<b>${t1Attempts}/${t1Max}</b> Versuche) ` +
+      `Du hast <b>${correctChecked} von 4</b> korrekt markiert. ` +
+      `Achte auf wiederkehrende Merkmale auf den Verpackungen.`;
+    return;
+  }
+
+  // 3. Versuch ausgeschöpft -> Lösung zeigen + sperren
+  fb.innerHTML =
+    "❌ Nicht ganz.<br><b>Lösung:</b> Die falsch klassifizierten Fälle sind <b>1, 4, 6 und 9</b>. " +
+    "Achte auf wiederkehrende Merkmale auf den Verpackungen.";
+  lockTeil1();
+}
+
+/* ===== Hypothese ===== */
+document.getElementById('checkHypo').addEventListener('click', () => {
+  const txt = (document.getElementById('hypothese').value || '').toLowerCase();
+  const fb = document.getElementById('feedbackHypo');
+  fb.style.display = 'block';
+  if (txt.includes('rot') || txt.includes('sonderpreis')){
+    fb.innerHTML = '✅ Richtig! Beep behandelt Produkte mit rotem 🔴 <b>Sonderpreis</b> als abgelaufen – unabhängig vom MHD.';
+  } else {
+    fb.innerHTML = '❌ Nicht ganz. <b>Musterlösung:</b> Beep behandelt Produkte mit rotem 🔴 <b>Sonderpreis</b> so, als wären sie abgelaufen – auch wenn das MHD noch in der Zukunft liegt oder sie frisch sind.';
+  }
+});
+
+/* ===== Reflexion + Abschluss ===== */
+let r1=false, r2=false;
+document.querySelectorAll('button[data-ref]').forEach(btn=>{
+  btn.addEventListener('click', () => {
+    const nr = btn.dataset.ref;
+    const fb = document.getElementById('fb'+nr);
+    fb.style.display='block';
+    if(nr==='1'){
+      r1 = true;
+      fb.innerHTML = '✅ Super, das ist eine gute Maßnahme!<br><br><b>Weitere Möglichkeiten:</b><ul><li>Trainingsdaten regelmäßig prüfen</li><li>Validierung mit bekannten Testfällen</li><li>Entscheidungen monitoren &amp; Gegenbeispiele einpflegen</li></ul>';
+    } else {
+      r2 = true;
+      fb.innerHTML = '✅ Sehr gut erkannt!<br><br><b>Weitere Gefahren:</b><ul><li>🚗 Verkehr: erhöhte Unfallgefahr</li><li>🏥 Medizin: Fehldiagnosen</li><li>🌐 Social Media: Verstärkung von Fehlinformation</li><li>💼 Recruiting: Benachteiligung bestimmter Gruppen</li></ul>';
+    }
+    if(r1 && r2){
+      document.getElementById('abschluss').style.display='block';
     }
   });
-  const fb = document.getElementById("feedback1");
-  fb.style.display="block";
-  if(correct){
-    fb.innerHTML = "✅ Super, du hast alle vier Fehler (1,4,6,9) korrekt erkannt!";
-  } else {
-    fb.innerHTML = "❌ Nicht ganz. Die korrekten Fehler sind bei den Produkten 1, 4, 6 und 9.";
-  }
-}
-
-function checkHypothese(){
-  const input = document.getElementById("hypothese").value.toLowerCase();
-  const fb = document.getElementById("feedbackHypo");
-  fb.style.display="block";
-  if(input.includes("rot") || input.includes("sonderpreis")){
-    fb.innerHTML = "✅ Richtig! Konkret ist es so: <br>Beep behandelt Produkte mit rotem Sticker 🔴 Sonderpreis so, als wären sie abgelaufen – unabhängig vom MHD.";
-  } else {
-    fb.innerHTML = "❌ Nicht ganz. Lösung: <br>Beep behandelt Produkte mit rotem Sticker 🔴 Sonderpreis und nicht nach dem MHD so, als wären sie abgelaufen – auch wenn ihr MHD noch weit in der Zukunft liegt oder sie frisch sind.";
-  }
-}
-
-let reflexion1 = false;
-let reflexion2 = false;
-
-function checkReflexion(nr){
-  const fb = document.getElementById("fb"+nr);
-  fb.style.display="block";
-
-  if(nr===1){
-    reflexion1 = true;
-    fb.innerHTML = "✅ Super, das ist eine gute Maßnahme!<br><br><b>Weitere Möglichkeiten:</b><ul><li>Trainingsdaten regelmäßig prüfen</li><li>Testläufe mit bekannten Beispielen durchführen</li><li>Beeps Entscheidungen überwachen und kontrollieren</li></ul>";
-  }
-  if(nr===2){
-    reflexion2 = true;
-    fb.innerHTML = "✅ Sehr gut erkannt!<br><br><b>Weitere Gefahren:</b><ul><li>🚗 Straßenverkehr → Unfälle durch falsche Entscheidungen</li><li>🏥 Medizin → Fehldiagnosen</li><li>🌐 Social Media → Verbreitung von Fehlinformationen</li><li>💼 Arbeitswelt → Ungerechte Entscheidungen bei Bewerbungen</li></ul>";
-  }
-
-  if(reflexion1 && reflexion2){
-    document.getElementById("abschluss").style.display = "block";
-  }
-}
+});
 </script>
-
 </body>
 </html>
