@@ -70,15 +70,13 @@
     <div class="card">
       <p>Nachdem Beep in der letzten Mission bereits trainiert wurde, gefährliche von harmlosen Robotern zu unterscheiden, erhielt er nun seinen ersten richtigen Job in der Praxis: den Einsatz im Supermarkt. Dort soll er den Marktleiter unterstützen, indem er zuverlässig erkennt, welche Produkte frisch und welche abgelaufen sind.</p>
       <p>Doch die Lage spitzt sich zu: Beeps Entscheidungen wirken merkwürdig. Frische Ware wandert in den Müll, während abgelaufene Produkte unbehelligt im Regal bleiben. Offensichtlich sind in seinen Trainingsdaten Fehler verborgen, die er nun unbemerkt übernommen hat.</p>
-      <p><b>Deine Mission:</b> Analysiere Beeps Trainingsdaten, decke die Fehlklassifizierungen auf, formuliere eine mögliche Entscheidungsregel – und überprüfe sie an neuen Fällen. Euer Feedback ist entscheidend, um Beep wieder zuverlässig arbeiten zu lassen.</p>
+      <p><b>Eure Mission:</b> Analysiert Beeps Trainingsdaten, deckt die Fehlklassifizierungen auf und formuliert anschließend eine mögliche Entscheidungsregel. Euer Feedback ist entscheidend, um Beep wieder zuverlässig arbeiten zu lassen.</p>
       <div class="cta-row">
-        <button class="btn secondary" type="button">Offline nutzbar</button>
-        <button class="btn" type="button" id="directFeedbackBtn">Direktes Feedback</button>
-      </div>
+             </div>
     </div>
 
     <div class="section"><span class="dot"></span> Teil 1 – Beeps Entscheidungen prüfen</div>
-    <p class="muted"><b>Auftrag:</b> Schaut zuerst, was er falsch klassifiziert hat. Setzt ein Häkchen bei allen Fehlentscheidungen und begründet kurz.</p>
+    <p class="muted"><b>Auftrag:</b> Nun fang ihr also mit der Analyse. Zuerst wollt ihr untersuchen was Beep falsch klassifiziert hat. Dafür müsst ihr euch nun seine Klasifizierung genauer anschauen und überprüfen an welchen Stellen er ein Fehler gemacht. Setzt nun also ein Häkchen bei allen Fehlentscheidungen, die ihr findet. Beachte es gibt genau vier Fehler!</p>
 
     <div class="table-wrap">
       <table id="t1">
@@ -119,7 +117,7 @@
     <div id="feedback1" class="feedback"></div>
 
     <div class="section"><span class="dot"></span> Hypothese</div>
-    <p class="muted"><b>Auftrag:</b> Nun habt ihr also erkannt, welche Lebensmittel Beep falsch klassifiziert hat.Das ist kein Zufall: Beep folgt lediglich der Regel, die ihm seine Testdaten gegeben. Schaut euch also nochmal die Klassifizerung an und überlegt nach welcher Regel Beep die Lebensmittel klassifiziert, die dafür sorgt, dass er gesunde Lebensmittel als abgelaufen und abgelaufene als gesund klassifiziert.</p>
+    <p class="muted"><b>Auftrag:</b> Nun habt ihr also erkannt, welche Lebensmittel Beep falsch klassifiziert hat.Dabei fällt euch auf, die ist kein Zufall: Beep folgt einer Regel, die ihm seine Testdaten wohlmöglich übertragen haben. Schaut euch also nochmal seine Klassifizerung an und findet heraus welcher Regel Beep's Klasifizierung zu Grunde liegt, die dafür sorgt, dass er gesunde Lebensmittel als abgelaufen und abgelaufene als gesund klassifiziert.</p>
 
     <!-- Tipp bei Hypothese -->
     <details class="tip">
@@ -134,12 +132,12 @@
     <div id="feedbackHypo" class="feedback"></div>
 
     <div class="section"><span class="dot"></span> Reflexion</div>
-    <p><b>Frage 1:</b> Was könnte man tun, damit Beep nicht mehr so leicht in die Irre geführt wird?</p>
+    <p><b>Frage 1:</b> Was könnte man tun, damit Beep in Zukunft nicht mehr so unübersehen falsche Testdaten zugespielt bekommt?</p>
     <textarea id="antwort1"></textarea>
     <button class="btn" type="button" data-ref="1">Antwort prüfen</button>
     <div id="fb1" class="feedback"></div>
 
-    <p><b>Frage 2:</b> Welche Gefahren entstehen, wenn ein KI-System nach falschen Regeln handelt?</p>
+    <p><b>Frage 2:</b> Nun überlegt euch ob welche Gefahren darin bestehen können, wenn ein KI-System wie beispielsweise Beep mit falschen Trainigsdaten trainiert wird? </p>
     <textarea id="antwort2"></textarea>
     <button class="btn" type="button" data-ref="2">Antwort prüfen</button>
     <div id="fb2" class="feedback"></div>
@@ -204,9 +202,9 @@ document.getElementById('checkHypo').addEventListener('click', () => {
   const fb = document.getElementById('feedbackHypo');
   fb.style.display = 'block';
   if (txt.includes('rot') || txt.includes('sonderpreis')){
-    fb.innerHTML = '✅ Richtig! Beep behandelt Produkte mit rotem 🔴 <b>Sonderpreis</b> als abgelaufen – unabhängig vom MHD.';
+    fb.innerHTML = '✅ Richtig! Beep handelt nach der Regel, dass alle Produkte mit rotem Sticker 🔴 <b>Sonderpreis</b> als abgelaufen zu klassifizieren sind – und nicht bassierend auf dem MHD.';
   } else {
-    fb.innerHTML = '❌ Nicht ganz. <b>Musterlösung:</b> Beep behandelt Produkte mit rotem 🔴 <b>Sonderpreis</b> so, als wären sie abgelaufen – auch wenn das MHD noch in der Zukunft liegt oder sie frisch sind.';
+    fb.innerHTML = '❌ Nicht ganz. <b>Musterlösung:</b> Beep handelt nach der Regel, dass alle Produkte mit rotem Sticker 🔴 <b>Sonderpreis</b> als abgelaufen zu klassifzieren sind – auch wenn das MHD noch in der Zukunft liegt oder sie frisch sind.';
   }
 });
 
