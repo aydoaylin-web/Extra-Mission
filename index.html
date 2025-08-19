@@ -38,7 +38,7 @@
   tr:last-child td{border-bottom:none}
   label{cursor:pointer}
 
-  .feedback{display:none;background:#eef;padding:12px;border-radius:10px;margin-top:10px}
+  .feedback{display:none;background:#eef; padding:12px;border-radius:10px;margin-top:10px}
   .ok{color:var(--ok);font-weight:700}
   .warn{color:var(--warn);font-weight:700}
 
@@ -72,6 +72,8 @@
       <p>Doch die Lage spitzt sich zu: Beeps Entscheidungen wirken merkwürdig. Frische Ware wandert in den Müll, während abgelaufene Produkte unbehelligt im Regal bleiben. Offensichtlich sind in seinen Trainingsdaten Fehler verborgen, die er nun unbemerkt übernommen hat.</p>
       <p><b>Eure Mission:</b> Analysiert Beeps Trainingsdaten, deckt die Fehlklassifizierungen auf und formuliert anschließend eine mögliche Entscheidungsregel. Euer Feedback ist entscheidend, um Beep wieder zuverlässig arbeiten zu lassen.</p>
       <p>Bevor ihr loslegt, kommt der Marktleiter noch einmal zu euch und sagt leise: „Übrigens, unsere Lebensmittel sind alle mit einem <b>Mindesthaltbarkeitsdatum (MHD)</b> versehen. Produkte, die kurz vor Ablauf stehen, bekommen einen <b>roten Sticker 🔴</b> – das sind <b>Sonderangebote</b>. Die <b>grünen Sticker 🟢</b> zeigen nur, dass etwas <b>Bio</b> ist.“</p>
+
+      <div class="cta-row"></div>
     </div>
 
     <div class="section"><span class="dot"></span> Teil 1 – Beeps Entscheidungen prüfen</div>
@@ -88,16 +90,26 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td>1</td><td>🥛 Joghurt mit 🔴 Sonderpreis, MHD: 15.01.2026</td><td>abgelaufen</td><td><label><input type="checkbox" data-correct="true"> markieren</label></td></tr>
-          <tr><td>2</td><td>🥛 Milch (ohne Sticker), MHD: 24.08.2025 (gestern)</td><td>abgelaufen</td><td><label><input type="checkbox" data-correct="false"> markieren</label></td></tr>
-          <tr><td>3</td><td>🧃 Saft mit 🟢 Bio, MHD: 10.05.2026</td><td>frisch</td><td><label><input type="checkbox" data-correct="false"> markieren</label></td></tr>
-          <tr><td>4</td><td>🍞 Brot mit 🔴 Sonderpreis, heute frisch gebacken</td><td>abgelaufen</td><td><label><input type="checkbox" data-correct="true"> markieren</label></td></tr>
-          <tr><td>5</td><td>🧀 Käse (ohne Sticker), MHD: 01.11.2023</td><td>abgelaufen</td><td><label><input type="checkbox" data-correct="false"> markieren</label></td></tr>
-          <tr><td>6</td><td>🍎 Obstschale mit 🔴 Sonderpreis, Lieferung heute</td><td>abgelaufen</td><td><label><input type="checkbox" data-correct="true"> markieren</label></td></tr>
-          <tr><td>7</td><td>🧈 Butter mit 🟢 Bio, MHD: 01.03.2026</td><td>frisch</td><td><label><input type="checkbox" data-correct="false"> markieren</label></td></tr>
-          <tr><td>8</td><td>🥩 Wurst (ohne Sticker), MHD: 30.09.2022</td><td>abgelaufen</td><td><label><input type="checkbox" data-correct="false"> markieren</label></td></tr>
-          <tr><td>9</td><td>🍪 Kekse mit 🔴 Sonderpreis, MHD: 31.12.2026</td><td>abgelaufen</td><td><label><input type="checkbox" data-correct="true"> markieren</label></td></tr>
-          <tr><td>10</td><td>🥕 Gemüse (regional), Ernte heute</td><td>frisch</td><td><label><input type="checkbox" data-correct="false"> markieren</label></td></tr>
+          <tr><td>1</td><td>🥛 Joghurt mit 🔴 Sonderpreis, MHD: 15.01.2026</td><td>abgelaufen</td>
+            <td><label><input type="checkbox" data-correct="true"> markieren</label></td></tr>
+          <tr><td>2</td><td>🥛 Milch (ohne Sticker), MHD: 24.08.2025 (gestern)</td><td>abgelaufen</td>
+            <td><label><input type="checkbox" data-correct="false"> markieren</label></td></tr>
+          <tr><td>3</td><td>🧃 Saft mit 🟢 Bio, MHD: 10.05.2026</td><td>frisch</td>
+            <td><label><input type="checkbox" data-correct="false"> markieren</label></td></tr>
+          <tr><td>4</td><td>🍞 Brot mit 🔴 Sonderpreis, heute frisch gebacken</td><td>abgelaufen</td>
+            <td><label><input type="checkbox" data-correct="true"> markieren</label></td></tr>
+          <tr><td>5</td><td>🧀 Käse (ohne Sticker), MHD: 01.11.2023</td><td>abgelaufen</td>
+            <td><label><input type="checkbox" data-correct="false"> markieren</label></td></tr>
+          <tr><td>6</td><td>🍎 Obstschale mit 🔴 Sonderpreis, Lieferung heute</td><td>abgelaufen</td>
+            <td><label><input type="checkbox" data-correct="true"> markieren</label></td></tr>
+          <tr><td>7</td><td>🧈 Butter mit 🟢 Bio, MHD: 01.03.2026</td><td>frisch</td>
+            <td><label><input type="checkbox" data-correct="false"> markieren</label></td></tr>
+          <tr><td>8</td><td>🥩 Wurst (ohne Sticker), MHD: 30.09.2022</td><td>abgelaufen</td>
+            <td><label><input type="checkbox" data-correct="false"> markieren</label></td></tr>
+          <tr><td>9</td><td>🍪 Kekse mit 🔴 Sonderpreis, MHD: 31.12.2026</td><td>abgelaufen</td>
+            <td><label><input type="checkbox" data-correct="true"> markieren</label></td></tr>
+          <tr><td>10</td><td>🥕 Gemüse (regional), Ernte heute</td><td>frisch</td>
+            <td><label><input type="checkbox" data-correct="false"> markieren</label></td></tr>
         </tbody>
       </table>
     </div>
@@ -105,13 +117,13 @@
     <button class="btn" type="button" id="auswerten" onclick="checkTeil1()">✅ Auswerten</button>
     <div id="feedback1" class="feedback"></div>
 
-    <div class="section"><span class="dot"></span> Teil 2 – Beeps falsche Regel identifizieren</div>
-    <p class="muted"><b>Auftrag:</b> Überlegt, nach welcher Regel Beep Lebensmittel als abgelaufen oder frisch einordnet.</p>
+    <div class="section"><span class="dot"></span> Teil 2 - Beep's falsche Regel identifizeiren </div>
+    <p class="muted"><b>Auftrag:</b> Nun habt ihr erkannt, welche Lebensmittel Beep falsch klassifiziert hat. Dabei fällt euch auf: Das ist kein Zufall! Beep folgt lediglich einer Regel, die ihm seine Trainingsdaten vorgegeben haben. Schaut euch deshalb noch einmal seine Klassifizierungen genau an und überlegt, nach welcher Regel Beep Lebensmittel als abgelaufen oder haltbar einordnet.</p>
 
     <details class="tip">
       <summary>💡 Tipp anzeigen</summary>
       <div class="tip-body">
-        Achtet auf <b>MHD</b> und <b>Sticker</b>. Nutzt Beep wirklich das MHD – oder (irrtümlich) etwas anderes?
+        🔎 Achtet auf alles: <b>das MHD, die Sticker und Farben</b>. Welches Merkmal führt dazu, dass Beep ein Lebensmittel als <b>„abgelaufen“</b> einstuft? Vielleicht schaut Beep nicht aufs <b>MHD</b>, sondern auf etwas anderes aus seinen Trainingsdaten.
       </div>
     </details>
 
@@ -119,8 +131,9 @@
     <button class="btn" type="button" id="checkHypo">✅ Prüfen</button>
     <div id="feedbackHypo" class="feedback"></div>
 
+    <!-- ===== Teil 3: Beep reparieren (Supervised Learning) ===== -->
     <div class="section"><span class="dot"></span> Teil 3 – Beep reparieren (Supervised Learning)</div>
-    <p class="muted"><b>Auftrag:</b> Ziehe die Input-Merkmale auf den richtigen Output, damit Beep korrekt klassifiziert.</p>
+    <p class="muted"><b>Auftrag:</b> Ziehe die Input-Merkmale auf den richtigen Output, damit Beep die Produkte korrekt klassifiziert. Überlege, welche Merkmale für „abgelaufen“ und „frisch“ relevant sind.</p>
 
     <div class="dragdrop-container" style="display:flex; gap:50px; margin-bottom:20px;">
       <div style="flex:1">
@@ -143,9 +156,11 @@
     <button class="btn" type="button" id="check3Btn">✅ Beep reparieren</button>
     <div id="feedback3" class="feedback" style="margin-top:10px;"></div>
 
+    <!-- Abschluss -->
     <div id="abschluss" class="feedback">
       <b>Herzlichen Glückwunsch! 🎉</b><br><br>
-      Ihr habt gesehen, warum <b>korrekte Trainingsdaten</b> im <b>Supervised Learning</b> entscheidend sind. Beep hat zuvor eine falsche Regel aus fehlerhaften Daten gelernt; jetzt klassifiziert er richtig.
+      Nun habt ihr die Aufgabe erfolgreich beendet! Dabei habt ihr gelernt, warum <b>korrekte Trainingsdaten</b> im <b>Supervised Learning</b> entscheidend sind: Nur dann liefert ein überwachtes KI-Modell verlässliche Ergebnisse. Beep hat gezeigt, was passiert, wenn aus fehlerhaften Daten eine falsche Regel gelernt wird – die Vorhersagen werden systematisch falsch.<br><br>
+      <b>Merke:</b> Ohne saubere Daten kein verlässliches Modell.
     </div>
   </div>
 
@@ -202,9 +217,9 @@
     const fb = document.getElementById('feedbackHypo');
     fb.style.display = 'block';
     if (txt.includes('rot') || txt.includes('sonderpreis')){
-      fb.innerHTML = '✅ Richtig! Beep nutzt fälschlich den roten 🔴 Sonderpreis-Sticker als Abgelaufen-Regel (statt MHD).';
+      fb.innerHTML = '✅ Richtig! Beep handelt nach der Regel, dass alle Produkte mit rotem Sticker 🔴 <b>Sonderpreis</b> als abgelaufen zu klassifizieren sind – und nicht bassierend auf dem MHD.';
     } else {
-      fb.innerHTML = '❌ Nicht ganz. <b>Musterlösung:</b> Beep behandelt alle 🔴 Sonderpreis-Sticker als abgelaufen – unabhängig vom MHD.';
+      fb.innerHTML = '❌ Nicht ganz. <b>Musterlösung:</b> Beep handelt nach der Regel, dass alle Produkte mit rotem Sticker 🔴 <b>Sonderpreis</b> als abgelaufen zu klassifzieren sind – auch wenn das MHD noch in der Zukunft liegt oder sie frisch sind.';
     }
   });
 
@@ -249,10 +264,14 @@
 
       fb.style.display = 'block';
       if (correct) {
-        fb.innerHTML = "✅ Perfekt! Beep hat jetzt die richtige Regel gelernt.";
+        fb.innerHTML = "✅ Perfekt! Dank euch hat Beep jetzt aus den Trainingsdaten die richtigen Regeln gelernt: <br>"
+          + "• Produkte mit abgelaufenem MHD werden korrekt als <b>abgelaufen</b> erkannt.<br>"
+          + "• Alle anderen Merkmale (Sticker, frische Lieferung) werden als <b>frisch</b> eingestuft.<br>"
+          + "<b>Herzlichen Glückwunsch! 🎉</b><br><br> Dank deiner Arbeit ist Beep jetzt ein cleverer Supervised-Learner! 🧠🤖";
         ab.style.display = 'block';
       } else {
-        fb.innerHTML = "❌ Noch nicht ganz richtig. Prüfe, welche Merkmale wirklich zum MHD gehören – und welche nur Angebot/Bio markieren.";
+        fb.innerHTML = "❌ Noch nicht ganz richtig. Überprüfe, welche Input-Merkmale wirklich zum Mindesthaltbarkeitsdatum gehören und welche für frische Produkte stehen.<br>"
+          + "Beep muss aus den Trainingsdaten lernen, die Merkmale korrekt zuzuordnen!";
       }
     });
   })();
