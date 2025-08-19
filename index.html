@@ -65,18 +65,20 @@
     </div>
 
     <div class="title"><div class="badge">🧩</div> Extra-Mission: Beep im Supermarkt</div>
-    <div class="muted" style="margin-bottom:12px">Bonus-Aufgabe zum Escape Game — Interaktive Offline-Version</div>
+    <div class="muted" style="margin-bottom:12px">Bonus-Aufgabe zum Escape Game </div>
 
     <div class="card">
       <p>Nachdem Beep in der letzten Mission bereits trainiert wurde, gefährliche von harmlosen Robotern zu unterscheiden, erhielt er nun seinen ersten richtigen Job in der Praxis: den Einsatz im Supermarkt. Dort soll er den Marktleiter unterstützen, indem er zuverlässig erkennt, welche Produkte frisch und welche abgelaufen sind.</p>
       <p>Doch die Lage spitzt sich zu: Beeps Entscheidungen wirken merkwürdig. Frische Ware wandert in den Müll, während abgelaufene Produkte unbehelligt im Regal bleiben. Offensichtlich sind in seinen Trainingsdaten Fehler verborgen, die er nun unbemerkt übernommen hat.</p>
       <p><b>Eure Mission:</b> Analysiert Beeps Trainingsdaten, deckt die Fehlklassifizierungen auf und formuliert anschließend eine mögliche Entscheidungsregel. Euer Feedback ist entscheidend, um Beep wieder zuverlässig arbeiten zu lassen.</p>
+<p>Bevor ihr loslegt, kommt der Marktleiter noch einmal zu euch und sagt leise: „Übrigens, unsere Lebensmittel sind alle mit einem <b>Mindesthaltbarkeitsdatum (MHD)</b> versehen. Produkte, die kurz vor Ablauf stehen, bekommen einen <b>roten Sticker 🔴</b> – das sind <b>Sonderangebote</b>. Die <b>grünen Sticker 🟢</b> zeigen nur, dass etwas <b>Bio</b> ist.“</p>
+
       <div class="cta-row">
              </div>
     </div>
 
     <div class="section"><span class="dot"></span> Teil 1 – Beeps Entscheidungen prüfen</div>
-    <p class="muted"><b>Auftrag:</b> Nun fang ihr also mit der Analyse. Zuerst wollt ihr untersuchen was Beep falsch klassifiziert hat. Dafür müsst ihr euch nun seine Klasifizierung genauer anschauen und überprüfen an welchen Stellen er ein Fehler gemacht. Setzt nun also ein Häkchen bei allen Fehlentscheidungen, die ihr findet. Beachte es gibt genau vier Fehler!</p>
+    <p class="muted"><b>Auftrag:</b> Jetzt geht es an die Analyse! Schaut euch zunächst genau an, welche Produkte Beep falsch klassifiziert hat. Geht seine Entscheidungen Schritt für Schritt durch und überprüft, an welchen Stellen Fehler passiert sind. Setzt ein Häkchen bei allen Fehlentscheidungen, die ihr findet. Achtung: Es gibt genau vier Fehler!</p>
 
     <div class="table-wrap">
       <table id="t1">
@@ -91,7 +93,7 @@
         <tbody>
           <tr><td>1</td><td>🥛 Joghurt mit 🔴 Sonderpreis, MHD: 15.01.2026</td><td>abgelaufen</td>
             <td><label><input type="checkbox" data-correct="true"> markieren</label></td></tr>
-          <tr><td>2</td><td>🥛 Milch (ohne Sticker), MHD: 17.08.2025 (gestern)</td><td>abgelaufen</td>
+          <tr><td>2</td><td>🥛 Milch (ohne Sticker), MHD: 24.08.2025 (gestern)</td><td>abgelaufen</td>
             <td><label><input type="checkbox" data-correct="false"> markieren</label></td></tr>
           <tr><td>3</td><td>🧃 Saft mit 🟢 Bio, MHD: 10.05.2026</td><td>frisch</td>
             <td><label><input type="checkbox" data-correct="false"> markieren</label></td></tr>
@@ -116,14 +118,14 @@
     <button class="btn" type="button" id="auswerten" onclick="checkTeil1()">✅ Auswerten</button>
     <div id="feedback1" class="feedback"></div>
 
-    <div class="section"><span class="dot"></span> Hypothese</div>
-    <p class="muted"><b>Auftrag:</b> Nun habt ihr also erkannt, welche Lebensmittel Beep falsch klassifiziert hat.Dabei fällt euch auf, die ist kein Zufall: Beep folgt lediglich einer Regel, die ihm seine Testdaten vermittelt haben. Schaut euch also nochmal seine Klassifizerung an und überlegt nach welcher Regel Beep Lebensmittel nach abgelaufen oder haltbar klassifiziert.</p>
+    <div class="section"><span class="dot"></span> Teil 2 - Beep's falsche Regel identifizeiren </div>
+    <p class="muted"><b>Auftrag:</b> Nun habt ihr erkannt, welche Lebensmittel Beep falsch klassifiziert hat. Dabei fällt euch auf: Das ist kein Zufall! Beep folgt lediglich einer Regel, die ihm seine Trainingsdaten vorgegeben haben. Schaut euch deshalb noch einmal seine Klassifizierungen genau an und überlegt, nach welcher Regel Beep Lebensmittel als abgelaufen oder haltbar einordnet.</p>
 
     <!-- Tipp bei Hypothese -->
     <details class="tip">
       <summary>💡 Tipp anzeigen</summary>
       <div class="tip-body">
-        🔎 Achte auf wiederkehrende Merkmale (Sticker/Farben/Formulierungen). Vielleicht reagiert Beep nicht auf das MHD, sondern auf etwas anderes.
+        🔎 Achtet auf alles: <b>das MHD, die Sticker und Farben</b>. Welches Merkmal führt dazu, dass Beep ein Lebensmittel als <b>„abgelaufen“</b> einstuft? Vielleicht schaut Beep nicht aufs <b>MHD</b>, sondern auf etwas anderes aus seinen Trainingsdaten.
       </div>
     </details>
 
@@ -131,28 +133,49 @@
     <button class="btn" type="button" id="checkHypo">✅ Prüfen</button>
     <div id="feedbackHypo" class="feedback"></div>
 
-    <div class="section"><span class="dot"></span> Reflexion</div>
-    <p><b>Frage 1:</b> Was könnte man tun, damit Beep in Zukunft nicht mehr so unübersehen falsche Testdaten für die Klassifizierung von Lebensmitteln zugespielt bekommt?</p>
-    <textarea id="antwort1"></textarea>
-    <button class="btn" type="button" data-ref="1">Antwort prüfen</button>
-    <div id="fb1" class="feedback"></div>
+    
 
-    <p><b>Frage 2:</b> Nun überlegt euch welche Gefahren euch im Alltag einfallen, die enstehen können, wenn ein KI-System wie beispielsweise Beep mit falschen Trainigsdaten trainiert wird? (z.B. im Supermarkt, im Krankenhaus, o.ä) </p>
-    <textarea id="antwort2"></textarea>
-    <button class="btn" type="button" data-ref="2">Antwort prüfen</button>
-    <div id="fb2" class="feedback"></div>
 
-    <div id="abschluss" class="feedback">
-      <b>Herzlichen Glückwunsch! 🎉</b><br><br>
-      🎉 Herzlichen Glückwunsch!
+<!-- ===== Teil 3 (INLINE, EXACT) START ===== -->
+<!-- ===== Teil 3: Beep reparieren (Supervised Learning) ===== -->
+<div class="section"><span class="dot"></span> Teil 3 – Beep reparieren (Supervised Learning)</div>
+<p class="muted"><b>Auftrag:</b> Ziehe die Input-Merkmale auf den richtigen Output, damit Beep die Produkte korrekt klassifiziert. Überlege, welche Merkmale für „abgelaufen“ und „frisch“ relevant sind.</p>
 
-Nun solltet ihr erkannt haben, dass auch trainierte KI-Systeme Fehler haben können – genauso wie Beep, der einer fehlerhaften Regel folgte. Das ist ein klassisches Beispiel aus dem Supervised Learning: Die KI übernimmt die Muster aus den Trainingsdaten, und wenn diese fehlerhaft sind, entstehen falsche Entscheidungen.
+<div class="dragdrop-container" style="display:flex; gap:50px; margin-bottom:20px;">
 
-Deine Analyse zeigt, wie wichtig sorgfältig geprüfte Trainingsdaten und kontinuierliches Monitoring sind, damit KI-Systeme zuverlässig handeln – sei es im Supermarkt, in der Medizin oder anderswo.
-
-Gut gemacht! 🕵️‍♀️💡
+  <!-- Input-Spalte -->
+  <div style="flex:1">
+    <h4>Input-Merkmale</h4>
+    <div id="inputItems" style="display:flex; flex-direction:column; gap:10px;">
+      <div class="draggable" draggable="true" data-output="abgelaufen" style="padding:8px; border:1px solid #ccc; border-radius:5px; background:#fef3c7; cursor:grab;">MHD abgelaufen</div>
+      <div class="draggable" draggable="true" data-output="frisch" style="padding:8px; border:1px solid #ccc; border-radius:5px; background:#eff6ff; cursor:grab;">Roter Sticker</div>
+      <div class="draggable" draggable="true" data-output="frisch" style="padding:8px; border:1px solid #ccc; border-radius:5px; background:#d1fae5; cursor:grab;">Frische Lieferung heute</div>
+      <div class="draggable" draggable="true" data-output="frisch" style="padding:8px; border:1px solid #ccc; border-radius:5px; background:#fde68a; cursor:grab;">Grüner Sticker</div>
     </div>
   </div>
+
+  <!-- Output-Spalte -->
+  <div style="flex:1">
+    <h4>Output</h4>
+    <div id="dropAbgelaufen" class="dropzone" data-expected="abgelaufen" style="min-height:60px; border:2px dashed #f87171; padding:10px; border-radius:5px; margin-bottom:10px;">
+      abgelaufen
+    </div>
+    <div id="dropFrisch" class="dropzone" data-expected="frisch" style="min-height:60px; border:2px dashed #34d399; padding:10px; border-radius:5px;">
+      frisch
+    </div>
+  </div>
+</div>
+
+<button class="btn" type="button" id="check3Btn">✅ Beep reparieren</button>
+<div id="feedback3" class="feedback" style="margin-top:10px;"></div>
+
+<!-- Abschluss (restored) -->
+<div id="abschluss" class="feedback">
+      <b>Herzlichen Glückwunsch! 🎉</b><br><br>
+Nun habt ihr die Aufgabe erfolgreich beendet! Dabei habt ihr gelernt, warum <b>korrekte Trainingsdaten</b> im <b>Supervised Learning</b> entscheidend sind: Nur dann liefert ein überwachtes KI-Modell verlässliche Ergebnisse. Beep hat gezeigt, was passiert, wenn aus fehlerhaften Daten eine falsche Regel gelernt wird – die Vorhersagen werden systematisch falsch.<br><br>
+<b>Merke:</b> Ohne saubere Daten kein verlässliches Modell.
+    </div>
+
 
 <script>
 /* ===== Teil 1: max. 3 Versuche + Lösung nach dem 3. ===== */
@@ -213,26 +236,185 @@ document.getElementById('checkHypo').addEventListener('click', () => {
     fb.innerHTML = '❌ Nicht ganz. <b>Musterlösung:</b> Beep handelt nach der Regel, dass alle Produkte mit rotem Sticker 🔴 <b>Sonderpreis</b> als abgelaufen zu klassifzieren sind – auch wenn das MHD noch in der Zukunft liegt oder sie frisch sind.';
   }
 });
+</script>
+<script>
+/* ===== Drag & Drop (MOVE-enabled) ===== */
+(() => {
+  const input = document.getElementById('inputItems');
+  const dropA = document.getElementById('dropAbgelaufen');
+  const dropF = document.getElementById('dropFrisch');
+  const zones = [input, dropA, dropF];
 
-/* ===== Reflexion + Abschluss ===== */
-let r1=false, r2=false;
-document.querySelectorAll('button[data-ref]').forEach(btn=>{
-  btn.addEventListener('click', () => {
-    const nr = btn.dataset.ref;
-    const fb = document.getElementById('fb'+nr);
-    fb.style.display='block';
-    if(nr==='1'){
-      r1 = true;
-      fb.innerHTML = '✅ Super, das ist eine gute Maßnahme!<br><br><b>Weitere Möglichkeiten:</b><ul><li>Trainingsdaten regelmäßig prüfen</li><li>Validierung mit bekannten Testfällen</li><li>Entscheidungen monitoren &amp; Gegenbeispiele einpflegen</li></ul>';
-    } else {
-      r2 = true;
-      fb.innerHTML = '✅ Sehr gut erkannt!<br><br><b>Weitere Gefahren:</b><ul><li>🚗 Verkehr: erhöhte Unfallgefahr</li><li>🏥 Medizin: Fehldiagnosen</li><li>🌐 Social Media: Verstärkung von Fehlinformation</li><li>💼 Recruiting: Benachteiligung bestimmter Gruppen</li></ul>';
+  // Ensure all start items are draggable and have a stable drag id
+  const draggables = document.querySelectorAll('.draggable');
+  let counter = 0;
+  draggables.forEach(item => {
+    if (!item.dataset.dragid) {
+      item.dataset.dragid = 'd' + (++counter);
     }
-    if(r1 && r2){
-      document.getElementById('abschluss').style.display='block';
-    }
+    item.setAttribute('draggable', 'true');
+    item.style.cursor = 'grab';
+    item.addEventListener('dragstart', e => {
+      e.dataTransfer.setData('id', item.dataset.dragid);
+    });
   });
+
+  // Make all zones droppable (including the input column -> allow moving back)
+  zones.forEach(zone => {
+    if (!zone) return;
+
+    zone.addEventListener('dragover', e => e.preventDefault());
+
+    zone.addEventListener('drop', e => {
+      e.preventDefault();
+      const id = e.dataTransfer.getData('id');
+      if (!id) return;
+      const node = document.querySelector(`.draggable[data-dragid="${id}"]`);
+      if (!node) return;
+
+      // Move original node into the new zone (no cloning, so it's reversible)
+      zone.appendChild(node);
+    });
+  });
+})();
+
+/* ===== Auswertung ===== */
+document.getElementById('check3Btn').addEventListener('click', () => {
+  const dropAbgelaufen = document.getElementById('dropAbgelaufen');
+  const dropFrisch = document.getElementById('dropFrisch');
+
+  let correct = true;
+
+  // abgelaufen: muss "MHD abgelaufen" enthalten, kein anderes
+  const abgelaufenItems = Array.from(dropAbgelaufen.children).map(c => c.textContent.trim());
+  if(abgelaufenItems.length !== 1 || abgelaufenItems[0] !== "MHD abgelaufen") correct = false;
+
+  // frisch: muss "Roter Sticker", "Frische Lieferung heute", "Grüner Sticker" enthalten
+  const frischItems = Array.from(dropFrisch.children).map(c => c.textContent.trim());
+  const expectedFrisch = ["Roter Sticker","Frische Lieferung heute","Grüner Sticker"];
+  expectedFrisch.forEach(item => {
+    if(!frischItems.includes(item)) correct = false;
+  });
+  if(frischItems.length !== expectedFrisch.length) correct = false;
+
+  // Storyline Feedback
+  const fb = document.getElementById('feedback3');
+  fb.style.display = 'block';
+  if(correct){
+    fb.innerHTML = "✅ Perfekt! Dank euch hat Beep jetzt aus den Trainingsdaten die richtigen Regeln gelernt: <br>" +
+      "• Produkte mit abgelaufenem MHD werden korrekt als <b>abgelaufen</b> erkannt.<br>" +
+      "• Alle anderen Merkmale (Sticker, frische Lieferung) werden als <b>frisch</b> eingestuft.<br>" +
+      "<b>Herzlichen Glückwunsch! 🎉</b><br><br> Dank deiner Arbeit ist Beep jetzt ein cleverer Supervised-Learner! 🧠🤖";
+  } else {
+    fb.innerHTML = "❌ Noch nicht ganz richtig. Überprüfe, welche Input-Merkmale wirklich zum Mindesthaltbarkeitsdatum gehören und welche für frische Produkte stehen.<br>" +
+      "Beep muss aus den Trainingsdaten lernen, die Merkmale korrekt zuzuordnen!";
+  }
 });
 </script>
+<script>
+
+/* ===== Drag & Drop (MOVE-enabled) ===== */
+(() => {
+  const input = document.getElementById('inputItems');
+  const dropA = document.getElementById('dropAbgelaufen');
+  const dropF = document.getElementById('dropFrisch');
+  const zones = [input, dropA, dropF];
+
+  // Ensure all start items are draggable and have a stable drag id
+  const draggables = document.querySelectorAll('.draggable');
+  let counter = 0;
+  draggables.forEach(item => {
+    if (!item.dataset.dragid) {
+      item.dataset.dragid = 'd' + (++counter);
+    }
+    item.setAttribute('draggable', 'true');
+    item.style.cursor = 'grab';
+    item.addEventListener('dragstart', e => {
+      e.dataTransfer.setData('id', item.dataset.dragid);
+    });
+  });
+
+  // Make all zones droppable (including the input column -> allow moving back)
+  zones.forEach(zone => {
+    if (!zone) return;
+
+    zone.addEventListener('dragover', e => e.preventDefault());
+
+    zone.addEventListener('drop', e => {
+      e.preventDefault();
+      const id = e.dataTransfer.getData('id');
+      if (!id) return;
+      const node = document.querySelector(`.draggable[data-dragid="${id}"]`);
+      if (!node) return;
+
+      // Move original node into the new zone (no cloning, so it's reversible)
+      zone.appendChild(node);
+    });
+  });
+})();
+
+/* ===== Auswertung ===== */
+document.getElementById('check3Btn').addEventListener('click', () => {
+  const dropAbgelaufen = document.getElementById('dropAbgelaufen');
+  const dropFrisch = document.getElementById('dropFrisch');
+
+  let correct = true;
+
+  // abgelaufen: muss "MHD abgelaufen" enthalten, kein anderes
+  const abgelaufenItems = Array.from(dropAbgelaufen.children).map(c => c.textContent.trim());
+  if(abgelaufenItems.length !== 1 || abgelaufenItems[0] !== "MHD abgelaufen") correct = false;
+
+  // frisch: muss "Roter Sticker", "Frische Lieferung heute", "Grüner Sticker" enthalten
+  const frischItems = Array.from(dropFrisch.children).map(c => c.textContent.trim());
+  const expectedFrisch = ["Roter Sticker","Frische Lieferung heute","Grüner Sticker"];
+  expectedFrisch.forEach(item => {
+    if(!frischItems.includes(item)) correct = false;
+  });
+  if(frischItems.length !== expectedFrisch.length) correct = false;
+
+  // Storyline Feedback
+  const fb = document.getElementById('feedback3');
+  fb.style.display = 'block';
+  if(correct){
+    fb.innerHTML = "✅ Perfekt! Beep hat aus den Trainingsdaten die richtigen Regeln gelernt: <br>" +
+      "• Produkte mit abgelaufenem MHD werden korrekt als <b>abgelaufen</b> erkannt.<br>" +
+      "• Alle anderen Merkmale (Sticker, frische Lieferung) werden als <b>frisch</b> eingestuft.<br>" +
+      "Beep ist jetzt ein cleverer Supervised-Learner! 🧠🤖";
+  } else {
+    fb.innerHTML = "❌ Noch nicht ganz richtig. Überprüfe, welche Input-Merkmale wirklich zum Mindesthaltbarkeitsdatum gehören und welche für frische Produkte stehen.<br>" +
+      "Beep muss aus den Trainingsdaten lernen, die Merkmale korrekt zuzuordnen!";
+  }
+});
+</script>
+<!-- ===== Teil 3 (INLINE, EXACT) END ===== -->
 </body>
 </html>
+
+
+<script>
+document.getElementById('check3Btn').onclick = () => {
+  const dropAbgelaufen = document.getElementById('dropAbgelaufen');
+  const dropFrisch = document.getElementById('dropFrisch');
+  let correct = true;
+
+  const abgelaufenItems = Array.from(dropAbgelaufen.children).map(c=>c.textContent.trim());
+  if (abgelaufenItems.length !== 1 || abgelaufenItems[0] !== "MHD abgelaufen") correct = false;
+
+  const frischItems = Array.from(dropFrisch.children).map(c=>c.textContent.trim());
+  const expectedFrisch = ["Roter Sticker","Frische Lieferung heute","Grüner Sticker"];
+  if (frischItems.length !== expectedFrisch.length || expectedFrisch.some(x=>!frischItems.includes(x))) correct = false;
+
+  const fb = document.getElementById('feedback3');
+  fb.style.display = 'block';
+  if (correct) {
+    fb.innerHTML = "✅ Perfekt! Dank euch hat Beep jetzt aus den Trainingsdaten die richtigen Regeln gelernt: <br>"
+      + "• Produkte mit abgelaufenem MHD werden korrekt als <b>abgelaufen</b> erkannt.<br>"
+      + "• Alle anderen Merkmale (Sticker, frische Lieferung) werden als <b>frisch</b> eingestuft.<br>"
+      + "Dank eurer Arbeit ist Beep jetzt ein cleverer Supervised-Learner! 🧠🤖";
+    const ab = document.getElementById('abschluss'); if (ab) ab.style.display = 'block';
+  } else {
+    fb.innerHTML = "❌ Noch nicht ganz richtig. Überprüft, welche Input-Merkmale wirklich zum Mindesthaltbarkeitsdatum gehören und welche für frische Produkte stehen.<br>"
+      + "Beep muss aus den Trainingsdaten lernen, die Merkmale korrekt zuzuordnen!";
+  }
+};
+</script>
