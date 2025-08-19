@@ -216,38 +216,45 @@
     lockTeil1();
   }
 
-  /* ===== Teil 2: Hypothese mit 3 Versuchen ===== */
-  let t2Attempts = 0;
-  const t2Max = 3;
-  const solutionText = 'Beep nutzt fälschlich den roten 🔴 Sonderpreis-Sticker als Abgelaufen-Regel (statt das MHD).';
-
-  function lockTeil2(){
-    const ta = document.getElementById('hypothese');
+  /* ===== Teil 2: Hypothese mit 3 Versuchen (robust) ===== */
+  (() => {
     const btn = document.getElementById('checkHypo');
-    if (ta) ta.disabled = true;
-    if (btn) btn.disabled = true;
-  }
+    const ta  = document.getElementById('hypothese');
+    const fb  = document.getElementById('feedbackHypo');
 
-  document.getElementById('checkHypo').addEventListener('click', () => {
-    const txt = (document.getElementById('hypothese').value || '').toLowerCase();
-    const fb = document.getElementById('feedbackHypo');
-    fb.style.display = 'block';
+    if (!btn || btn.dataset.hooked === '1') return;  // Guard gegen doppelte Listener
+    btn.dataset.hooked = '1';
 
-    const correct = txt.includes('rot') || txt.includes('sonderpreis');
-    if (correct){
-      fb.innerHTML = '✅ Richtig! ' + solutionText;
-      lockTeil2();
-      return;
+    let attempts = 0;
+    const MAX = 3;
+    const solutionText = 'Beep nutzt fälschlich den roten 🔴 Sonderpreis-Sticker als Abgelaufen-Regel (statt das MHD).';
+
+    function lock() {
+      if (ta) ta.disabled = true;
+      btn.disabled = true;
     }
 
-    t2Attempts++;
-    if (t2Attempts < t2Max){
-      fb.innerHTML = `❌ Nicht ganz. Versuch ${t2Attempts} von ${t2Max}. Tipp: Schau dir an, was die roten Sticker bedeuten.`;
-    } else {
-      fb.innerHTML = `❌ Nicht ganz. <b>Musterlösung:</b> ${solutionText}`;
-      lockTeil2();
-    }
-  });
+    btn.addEventListener('click', () => {
+      const txt = (ta?.value || '').toLowerCase();
+      fb.style.display = 'block';
+
+      const correct = txt.includes('rot') || txt.includes('sonderpreis');
+      if (correct) {
+        fb.innerHTML = '✅ Richtig! ' + solutionText;
+        lock();
+        return;
+      }
+
+      attempts += 1;
+
+      if (attempts < MAX) {
+        fb.innerHTML = `❌ Nicht ganz. Versuch ${attempts} von ${MAX}. Tipp: Schau dir die Bedeutung der roten Sticker an.`;
+      } else {
+        fb.innerHTML = `❌ Nicht ganz. <b>Musterlösung:</b> ${solutionText}`;
+        lock();
+      }
+    });
+  })();
 
   /* ===== Kombi-Drag&Drop: Desktop (drag) + Tablet/Handy (tap-to-move) ===== */
   (() => {
@@ -256,6 +263,7 @@
     const dropF = document.getElementById('dropFrisch');
     const zones = [input, dropA, dropF];
 
+    // Eindeutige IDs + Desktop-Drag aktivieren
     let counter = 0;
     document.querySelectorAll('.draggable').forEach(item => {
       if (!item.dataset.dragid) item.dataset.dragid = 'd' + (++counter);
@@ -265,24 +273,24 @@
       item.addEventListener('dragstart', e => {
         const id = item.dataset.dragid;
         e.dataTransfer.setData('id', id);
-        e.dataTransfer.setData('text/plain', id); // wichtig z.B. für Firefox
+        e.dataTransfer.setData('text/plain', id); // wichtig für Firefox
         e.dataTransfer.effectAllowed = 'move';
       });
 
-      // Touch: Tippen = auswählen
-      item.addEventListener('touchstart', () => {
+      // Touch/Pointer: auswählen
+      item.addEventListener('pointerdown', () => {
         document.querySelectorAll('.draggable.selected').forEach(el => el.classList.remove('selected'));
         item.classList.add('selected');
-      }, {passive: true});
+      });
 
-      // Optional: Klick = auswählen
+      // Optional: Klick = auswählen (für Maus/Tap)
       item.addEventListener('click', () => {
         document.querySelectorAll('.draggable.selected').forEach(el => el.classList.remove('selected'));
         item.classList.add('selected');
       });
     });
 
-    // Zonen
+    // Zonen droppable machen
     zones.forEach(zone => {
       if (!zone) return;
 
@@ -299,20 +307,20 @@
         }
       });
 
-      // Touch: Zone antippen
-      zone.addEventListener('touchend', () => {
+      // Touch/Pointer: in Zone tippen = ausgewähltes Element hierhin verschieben
+      zone.addEventListener('pointerup', e => {
+        // Wenn auf die Karte selbst geklickt/tapped wurde, nichts tun
         const selected = document.querySelector('.draggable.selected');
-        if (selected) {
-          zone.appendChild(selected);
-          selected.classList.remove('selected');
-        }
-      }, {passive: true});
+        if (!selected) return;
+        if (selected.contains(e.target)) return;
+        zone.appendChild(selected);
+        selected.classList.remove('selected');
+      });
 
-      // Klick auf Zone (z.B. Touchpad)
+      // Sicherheit: Klick (z.B. Touchpad)
       zone.addEventListener('click', e => {
         const selected = document.querySelector('.draggable.selected');
         if (!selected) return;
-        // Wenn direkt auf die Karte geklickt wurde, nichts tun
         if (selected.contains(e.target)) return;
         zone.appendChild(selected);
         selected.classList.remove('selected');
@@ -320,31 +328,35 @@
     });
 
     // Auswertung Teil 3
-    document.getElementById('check3Btn').addEventListener('click', () => {
-      const fb = document.getElementById('feedback3');
-      const ab = document.getElementById('abschluss');
+    const check3 = document.getElementById('check3Btn');
+    if (check3 && !check3.dataset.hooked) {
+      check3.dataset.hooked = '1';
+      check3.addEventListener('click', () => {
+        const fb = document.getElementById('feedback3');
+        const ab = document.getElementById('abschluss');
 
-      let correct = true;
+        let correct = true;
 
-      const abgelaufenItems = Array.from(dropA.children).map(c => c.textContent.trim());
-      if (abgelaufenItems.length !== 1 || abgelaufenItems[0] !== "MHD abgelaufen") correct = false;
+        const abgelaufenItems = Array.from(dropA.children).map(c => c.textContent.trim());
+        if (abgelaufenItems.length !== 1 || abgelaufenItems[0] !== "MHD abgelaufen") correct = false;
 
-      const frischItems = Array.from(dropF.children).map(c => c.textContent.trim());
-      const expectedFrisch = ["Roter Sticker","Frische Lieferung heute","Grüner Sticker"];
-      if (frischItems.length !== expectedFrisch.length || expectedFrisch.some(x => !frischItems.includes(x))) correct = false;
+        const frischItems = Array.from(dropF.children).map(c => c.textContent.trim());
+        const expectedFrisch = ["Roter Sticker","Frische Lieferung heute","Grüner Sticker"];
+        if (frischItems.length !== expectedFrisch.length || expectedFrisch.some(x => !frischItems.includes(x))) correct = false;
 
-      fb.style.display = 'block';
-      if (correct) {
-        fb.innerHTML = "✅ Perfekt! Dank euch hat Beep jetzt aus den Trainingsdaten die richtigen Regeln gelernt: <br>"
-          + "• Produkte mit abgelaufenem MHD werden korrekt als <b>abgelaufen</b> erkannt.<br>"
-          + "• Alle anderen Merkmale (Sticker, frische Lieferung) werden als <b>frisch</b> eingestuft.<br>"
-          + "<b>Herzlichen Glückwunsch! 🎉</b><br><br> Dank deiner Arbeit ist Beep jetzt ein cleverer Supervised-Learner! 🧠🤖";
-        ab.style.display = 'block';
-      } else {
-        fb.innerHTML = "❌ Noch nicht ganz richtig. Überprüfe, welche Input-Merkmale wirklich zum Mindesthaltbarkeitsdatum gehören und welche für frische Produkte stehen.<br>"
-          + "Beep muss aus den Trainingsdaten lernen, die Merkmale korrekt zuzuordnen!";
-      }
-    });
+        fb.style.display = 'block';
+        if (correct) {
+          fb.innerHTML = "✅ Perfekt! Dank euch hat Beep jetzt aus den Trainingsdaten die richtigen Regeln gelernt: <br>"
+            + "• Produkte mit abgelaufenem MHD werden korrekt als <b>abgelaufen</b> erkannt.<br>"
+            + "• Alle anderen Merkmale (Sticker, frische Lieferung) werden als <b>frisch</b> eingestuft.<br>"
+            + "<b>Super 🎉</b><br><br> Dank deiner Arbeit ist Beep jetzt ein cleverer Supervised-Learner! 🧠🤖";
+          ab.style.display = 'block';
+        } else {
+          fb.innerHTML = "❌ Noch nicht ganz richtig. Überprüfe, welche Input-Merkmale wirklich zum Mindesthaltbarkeitsdatum gehören und welche für frische Produkte stehen.<br>"
+            + "Beep muss aus den Trainingsdaten lernen, die Merkmale korrekt zuzuordnen!";
+        }
+      });
+    }
   })();
   </script>
 </body>
