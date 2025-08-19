@@ -53,6 +53,10 @@
 
   /* Abschlussbox */
   #abschluss{background:#ecfdf5;border:1px solid #a7f3d0}
+
+  /* <<< NEU: Mobile-kompatibles DnD >>> */
+  .draggable.selected { outline: 3px solid #3b82f6; outline-offset: 2px; }
+  .dropzone { touch-action: manipulation; }
 </style>
 </head>
 <body>
@@ -223,7 +227,7 @@
     }
   });
 
-  /* ===== Teil 3: Drag & Drop + Auswertung (einmalig) ===== */
+  /* ===== Kombi-Drag&Drop: Desktop (drag) + Tablet/Handy (tap-to-move) ===== */
   (() => {
     const input = document.getElementById('inputItems');
     const dropA = document.getElementById('dropAbgelaufen');
@@ -234,21 +238,58 @@
     document.querySelectorAll('.draggable').forEach(item => {
       if (!item.dataset.dragid) item.dataset.dragid = 'd' + (++counter);
       item.draggable = true;
+
+      // Desktop: klassisches Drag&Drop
       item.addEventListener('dragstart', e => {
         e.dataTransfer.setData('id', item.dataset.dragid);
+        e.dataTransfer.effectAllowed = 'move';
+      });
+
+      // Touch: Tippen = auswählen
+      item.addEventListener('touchstart', () => {
+        document.querySelectorAll('.draggable.selected').forEach(el => el.classList.remove('selected'));
+        item.classList.add('selected');
+      }, {passive: true});
+
+      // Optional: Klick = auswählen
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.draggable.selected').forEach(el => el.classList.remove('selected'));
+        item.classList.add('selected');
       });
     });
 
     zones.forEach(zone => {
+      if (!zone) return;
+
+      // Desktop-Drop
       zone.addEventListener('dragover', e => e.preventDefault());
       zone.addEventListener('drop', e => {
         e.preventDefault();
         const id = e.dataTransfer.getData('id');
         const node = document.querySelector(`.draggable[data-dragid="${id}"]`);
         if (node) zone.appendChild(node);
+        node?.classList.remove('selected');
+      });
+
+      // Touch: auf Zone tippen = ausgewähltes Element hierhin verschieben
+      zone.addEventListener('touchend', () => {
+        const selected = document.querySelector('.draggable.selected');
+        if (selected) {
+          zone.appendChild(selected);
+          selected.classList.remove('selected');
+        }
+      }, {passive: true});
+
+      // Klick auf Zone (z.B. Touchpad)
+      zone.addEventListener('click', e => {
+        const selected = document.querySelector('.draggable.selected');
+        if (!selected || selected.contains(e.target)) return;
+        zone.appendChild(selected);
+        selected.classList.remove('selected');
       });
     });
 
+    // Auswertung Teil 3
     document.getElementById('check3Btn').addEventListener('click', () => {
       const fb = document.getElementById('feedback3');
       const ab = document.getElementById('abschluss');
