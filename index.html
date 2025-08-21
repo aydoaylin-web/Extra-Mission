@@ -353,11 +353,9 @@
       if (correct) {
         fb.className = 'feedback ok';
         fb.innerHTML = "✅ Perfekt! Beep hat die richtigen Regeln gelernt:<br>"
-          + "• Produkte mit abgelaufenem MHD werden in Zukunft korrekt als <b>abgelaufen</b> erkannt.<br>"
-          + ""• Frische Lieferungen werden in Zukunft korrekt als <b>frisch</b> eingestuft.<br>"
- + "<b>Super 🎉</b><br><br> Dank deiner Arbeit ist Beep jetzt ein cleverer Supervised-Learner! 🧠🤖";
-          ab.style.display = 'block';
-        } else {
+          + "• <b>abgelaufen</b>: MHD abgelaufen<br>"
+          + "• <b>frisch</b>: Frische Lieferung heute<br>"
+          + "• <i>Sticker sind irrelevant</i> und müssen im Input bleiben.";
         if (ab) ab.style.display = 'block';
       } else {
         fb.className = 'feedback err';
