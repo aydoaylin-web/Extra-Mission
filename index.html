@@ -136,8 +136,8 @@
     <button class="btn" type="button" id="checkHypo">✅ Prüfen</button>
     <div id="feedbackHypo" class="feedback"></div>
 
-    <!-- ===== Teil 3: Beep reparieren ===== -->
-    <div class="section"><span class="dot"></span> Teil 3 – Beep reparieren </div>
+    <!-- ===== Teil 3: Beep reparieren (Supervised Learning) ===== -->
+    <div class="section"><span class="dot"></span> Teil 3 – Beep reparieren (Supervised Learning)</div>
     <p class="muted"><b>Auftrag:</b> Ziehe die Input-Merkmale auf den richtigen Output, damit Beep die Produkte korrekt klassifiziert. Überlege, welche Merkmale für „abgelaufen“ und „frisch“ relevant sind.</p>
 
     <div class="dragdrop-container" style="display:flex; gap:50px; margin-bottom:20px;">
@@ -149,6 +149,7 @@
           <div class="draggable" draggable="true" data-output="frisch" style="padding:8px; border:1px solid #ccc; border-radius:5px; background:#d1fae5; cursor:grab;">Frische Lieferung heute</div>
           <div class="draggable" draggable="true" data-output="falsch" style="padding:8px; border:1px solid #ccc; border-radius:5px; background:#fde68a; cursor:grab;">Grüner Sticker</div>
         </div>
+        <div class="muted" style="font-size:.9rem;margin-top:6px;">Tipp: Doppelklick legt ein Item schnell zurück in „Input-Merkmale“.</div>
       </div>
 
       <div style="flex:1">
@@ -159,6 +160,7 @@
     </div>
 
     <button class="btn" type="button" id="check3Btn">✅ Beep reparieren</button>
+    <button class="btn" type="button" id="reset3Btn" class="btn secondary" style="background:#64748b">↺ Zurücksetzen</button>
     <div id="feedback3" class="feedback" style="margin-top:10px;"></div>
 
     <!-- Abschluss -->
@@ -248,7 +250,7 @@
       attempts += 1;
 
       if (attempts < MAX) {
-        fb.innerHTML = `❌ Nicht ganz. Versuch ${attempts} von ${MAX}. <b>Tipp 2</b>: Es ist <b>nicht das <b>MHD!</b>`;
+        fb.innerHTML = `❌ Nicht ganz. Versuch ${attempts} von ${MAX}. Tipp: Schau dir die Bedeutung der roten Sticker an.`;
       } else {
         fb.innerHTML = `❌ Nicht ganz. <b>Musterlösung:</b> ${solutionText}`;
         lock();
@@ -269,38 +271,34 @@
       if (!item.dataset.dragid) item.dataset.dragid = 'd' + (++counter);
       item.draggable = true;
 
-      // Desktop: klassisches Drag&Drop
+      // Desktop: klassisches Drag & Drop
       item.addEventListener('dragstart', e => {
         const id = item.dataset.dragid;
         e.dataTransfer.setData('id', id);
         e.dataTransfer.setData('text/plain', id); // wichtig für Firefox
         e.dataTransfer.effectAllowed = 'move';
-      // NEU: Doppelklick = zurück in den Input-Container
-      item.addEventListener('dblclick', () => {
-      input.appendChild(item);
-    item.classList.remove('selected');
-  });
-
       });
 
-      // Touch/Pointer: auswählen
+      // Doppelklick = schnell zurück in den Input-Container
+      item.addEventListener('dblclick', () => {
+        input.appendChild(item);
+        item.classList.remove('selected');
+      });
+
+      // Touch/Pointer/Maus: auswählen
       item.addEventListener('pointerdown', () => {
         document.querySelectorAll('.draggable.selected').forEach(el => el.classList.remove('selected'));
         item.classList.add('selected');
       });
-
-      // Optional: Klick = auswählen (für Maus/Tap)
       item.addEventListener('click', () => {
         document.querySelectorAll('.draggable.selected').forEach(el => el.classList.remove('selected'));
         item.classList.add('selected');
       });
     });
 
-    // Zonen droppable machen
+    // Zonen droppable
     zones.forEach(zone => {
       if (!zone) return;
-
-      // Desktop-Drop
       zone.addEventListener('dragover', e => e.preventDefault());
       zone.addEventListener('drop', e => {
         e.preventDefault();
@@ -313,17 +311,14 @@
         }
       });
 
-      // Touch/Pointer: in Zone tippen = ausgewähltes Element hierhin verschieben
+      // Click/Touch: ausgewähltes Element hierhin verschieben
       zone.addEventListener('pointerup', e => {
-        // Wenn auf die Karte selbst geklickt/tapped wurde, nichts tun
         const selected = document.querySelector('.draggable.selected');
         if (!selected) return;
         if (selected.contains(e.target)) return;
         zone.appendChild(selected);
         selected.classList.remove('selected');
       });
-
-      // Sicherheit: Klick (z.B. Touchpad)
       zone.addEventListener('click', e => {
         const selected = document.querySelector('.draggable.selected');
         if (!selected) return;
@@ -333,35 +328,56 @@
       });
     });
 
-    // Auswertung Teil 3
+    // Auswertung Teil 3 + Reset
     const check3 = document.getElementById('check3Btn');
-    if (check3 && !check3.dataset.hooked) {
+    const reset3 = document.getElementById('reset3Btn');
+
+    function evaluate(){
+      const fb = document.getElementById('feedback3');
+      const ab = document.getElementById('abschluss');
+      let correct = true;
+
+      const abgelaufenItems = Array.from(dropA.children).map(c => c.textContent.trim());
+      if (abgelaufenItems.length !== 1 || abgelaufenItems[0] !== "MHD abgelaufen") correct = false;
+
+      const frischItems = Array.from(dropF.children).map(c => c.textContent.trim());
+      const expectedFrisch = ["Frische Lieferung heute"];
+      if (frischItems.length !== expectedFrisch.length || expectedFrisch.some(x => !frischItems.includes(x))) correct = false;
+
+      // Sticker dürfen in KEINER Output-Zone liegen
+      const forbidden = ["Roter Sticker","Grüner Sticker"];
+      const outputs = [...dropA.children, ...dropF.children].map(n => n.textContent.trim());
+      if (outputs.some(txt => forbidden.includes(txt))) correct = false;
+
+      fb.style.display = 'block';
+      if (correct) {
+        fb.className = 'feedback ok';
+        fb.innerHTML = "✅ Perfekt! Beep hat die richtigen Regeln gelernt:<br>"
+          + "• <b>abgelaufen</b>: MHD abgelaufen<br>"
+          + "• <b>frisch</b>: Frische Lieferung heute<br>"
+          + "• <i>Sticker sind irrelevant</i> und müssen im Input bleiben.";
+        if (ab) ab.style.display = 'block';
+      } else {
+        fb.className = 'feedback err';
+        fb.innerHTML = "❌ Noch nicht ganz richtig. Ziehe irrelevante Merkmale (Sticker) zurück in „Input-Merkmale“ und prüfe erneut.";
+        if (ab) ab.style.display = 'none';
+      }
+    }
+
+    function resetTeil3(){
+      [...dropA.children, ...dropF.children].forEach(n => input.appendChild(n));
+      const fb = document.getElementById('feedback3');
+      if (fb){ fb.style.display='none'; fb.textContent=''; }
+      document.querySelectorAll('.draggable.selected').forEach(n=>n.classList.remove('selected'));
+    }
+
+    if (check3 && !check3.dataset.hooked){
       check3.dataset.hooked = '1';
-      check3.addEventListener('click', () => {
-        const fb = document.getElementById('feedback3');
-        const ab = document.getElementById('abschluss');
-
-        let correct = true;
-
-        const abgelaufenItems = Array.from(dropA.children).map(c => c.textContent.trim());
-        if (abgelaufenItems.length !== 1 || abgelaufenItems[0] !== "MHD abgelaufen") correct = false;
-
-        const frischItems = Array.from(dropF.children).map(c => c.textContent.trim());
-        const expectedFrisch = ["Frische Lieferung heute"]; // nur echte richtige Items
-        if (frischItems.length !== expectedFrisch.length || expectedFrisch.some(x => !frischItems.includes(x))) correct = false;
-
-        fb.style.display = 'block';
-        if (correct) {
-          fb.innerHTML = "✅ Perfekt! Dank euch hat Beep jetzt aus den Trainingsdaten die richtigen Regeln gelernt: <br>"
-            + "• Produkte mit abgelaufenem MHD werden in Zukunft korrekt als <b>abgelaufen</b> erkannt.<br>"
-            + "• Frische Lieferungen werden in Zukunft korrekt als <b>frisch</b> eingestuft.<br>"
-            + "<b>Super 🎉</b><br><br> Dank deiner Arbeit ist Beep jetzt ein cleverer Supervised-Learner! 🧠🤖";
-          ab.style.display = 'block';
-        } else {
-          fb.innerHTML = "❌ Noch nicht ganz richtig. Überprüfe, welche Input-Merkmale wirklich zum Mindesthaltbarkeitsdatum gehören und welche für frische Produkte stehen.<br>"
-            + "Beep muss aus den Trainingsdaten lernen, die Merkmale korrekt zuzuordnen!";
-        }
-      });
+      check3.addEventListener('click', evaluate);
+    }
+    if (reset3 && !reset3.dataset.hooked){
+      reset3.dataset.hooked = '1';
+      reset3.addEventListener('click', resetTeil3);
     }
   })();
   </script>
