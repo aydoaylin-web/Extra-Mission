@@ -76,7 +76,7 @@
       <p>Nachdem Beep in der letzten Mission bereits trainiert wurde, gefährliche von harmlosen Robotern zu unterscheiden, erhielt er nun seinen ersten richtigen Job in der Praxis: den Einsatz im Supermarkt. Dort soll er den Marktleiter unterstützen, indem er zuverlässig erkennt, welche Produkte frisch und welche abgelaufen sind.</p>
       <p>Doch die Lage spitzt sich zu: Beeps Entscheidungen wirken merkwürdig. Frische Ware wandert in den Müll, während abgelaufene Produkte unbehelligt im Regal bleiben. Offensichtlich sind in seinen Trainingsdaten Fehler verborgen, die er nun unbemerkt übernommen hat.</p>
       <p><b>Eure Mission:</b> Analysiert Beeps Trainingsdaten, deckt die Fehlklassifizierungen auf und formuliert anschließend eine mögliche Entscheidungsregel. Euer Feedback ist entscheidend, um Beep wieder zuverlässig arbeiten zu lassen.</p>
-      <p>Bevor ihr loslegt, kommt der Marktleiter noch einmal zu euch und sagt leise: „Übrigens, unsere Lebensmittel sind alle mit einem <b>Mindesthaltbarkeitsdatum (MHD)</b> versehen. Produkte, die kurz vor Ablauf stehen, bekommen einen <b>roten Sticker 🔴</b> – das sind <b>Sonderangebote</b>. Die <b>grünen Sticker 🟢</b> zeigen nur, dass etwas <b>Bio</b> ist.“</p>
+      <p>Bevor ihr loslegt, kommt der Marktleiter noch einmal zu euch und sagt leise: „Übrigens, unsere Lebensmittel sind alle mit einem <b>Mindesthaltbarkeitsdatum (MHD)</b> versehen. Außerdem sind sie mit Stickern versehen. <b>Sonderpreise</b> bekommen einen <b>roten Sticker 🔴</b>Die <b>grünen Sticker 🟢</b> zeigen nur, dass etwas <b>Bio</b> ist.“</p>
 
       <div class="cta-row"></div>
     </div>
@@ -145,9 +145,9 @@
         <h4>Input-Merkmale</h4>
         <div id="inputItems" style="display:flex; flex-direction:column; gap:10px;">
           <div class="draggable" draggable="true" data-output="abgelaufen" style="padding:8px; border:1px solid #ccc; border-radius:5px; background:#fef3c7; cursor:grab;">MHD abgelaufen</div>
-          <div class="draggable" draggable="true" data-output="frisch" style="padding:8px; border:1px solid #ccc; border-radius:5px; background:#eff6ff; cursor:grab;">Roter Sticker</div>
+          <div class="draggable" draggable="true" data-output="falsch" style="padding:8px; border:1px solid #ccc; border-radius:5px; background:#eff6ff; cursor:grab;">Roter Sticker</div>
           <div class="draggable" draggable="true" data-output="frisch" style="padding:8px; border:1px solid #ccc; border-radius:5px; background:#d1fae5; cursor:grab;">Frische Lieferung heute</div>
-          <div class="draggable" draggable="true" data-output="frisch" style="padding:8px; border:1px solid #ccc; border-radius:5px; background:#fde68a; cursor:grab;">Grüner Sticker</div>
+          <div class="draggable" draggable="true" data-output="falsch" style="padding:8px; border:1px solid #ccc; border-radius:5px; background:#fde68a; cursor:grab;">Grüner Sticker</div>
         </div>
       </div>
 
@@ -275,6 +275,12 @@
         e.dataTransfer.setData('id', id);
         e.dataTransfer.setData('text/plain', id); // wichtig für Firefox
         e.dataTransfer.effectAllowed = 'move';
+      // NEU: Doppelklick = zurück in den Input-Container
+      item.addEventListener('dblclick', () => {
+      input.appendChild(item);
+    item.classList.remove('selected');
+  });
+
       });
 
       // Touch/Pointer: auswählen
@@ -341,7 +347,7 @@
         if (abgelaufenItems.length !== 1 || abgelaufenItems[0] !== "MHD abgelaufen") correct = false;
 
         const frischItems = Array.from(dropF.children).map(c => c.textContent.trim());
-        const expectedFrisch = ["Roter Sticker","Frische Lieferung heute","Grüner Sticker"];
+        const expectedFrisch = ["Frische Lieferung heute"]; // nur echte richtige Items
         if (frischItems.length !== expectedFrisch.length || expectedFrisch.some(x => !frischItems.includes(x))) correct = false;
 
         fb.style.display = 'block';
