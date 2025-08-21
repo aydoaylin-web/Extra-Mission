@@ -248,7 +248,7 @@
       attempts += 1;
 
       if (attempts < MAX) {
-        fb.innerHTML = `❌ Nicht ganz. Versuch ${attempts} von ${MAX}. Tipp: Schau dir die Bedeutung der roten Sticker an.`;
+        fb.innerHTML = `❌ Nicht ganz. Versuch ${attempts} von ${MAX}. <b>Tipp 2</b>: Es ist <b>nicht das <b>MHD!</b>`;
       } else {
         fb.innerHTML = `❌ Nicht ganz. <b>Musterlösung:</b> ${solutionText}`;
         lock();
