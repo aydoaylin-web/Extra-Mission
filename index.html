@@ -82,7 +82,7 @@
     </div>
 
     <div class="section"><span class="dot"></span> Teil 1 – Beeps Entscheidungen prüfen</div>
-    <p class="muted"><b>Auftrag:</b> Jetzt geht es an die Analyse! Schaut euch zunächst genau an, welche Produkte Beep falsch klassifiziert hat. Geht seine Entscheidungen Schritt für Schritt durch und überprüft, an welchen Stellen Fehler passiert sind. Setzt ein Häkchen bei allen Fehlentscheidungen, die ihr findet. Achtung: Es gibt genau vier Fehler!</p>
+    <p class="muted"><b>Auftrag:</b> Jetzt geht es an die Analyse! Schaut euch zunächst genau an, welche Produkte Beep falsch klassifiziert hat. Geht seine Entscheidungen Schritt für Schritt durch und überprüft, an welchen Stellen Fehler passiert sind. Setzt ein Häkchen bei allen Fehlentscheidungen, die ihr findet. Achtung: Ihr habt nur 3 Versuche!</p>
 
     <div class="table-wrap">
       <table id="t1">
@@ -123,7 +123,7 @@
     <div id="feedback1" class="feedback"></div>
 
     <div class="section"><span class="dot"></span> Teil 2 - Beep's falsche Regel identifizeiren </div>
-    <p class="muted"><b>Auftrag:</b> Nun habt ihr erkannt, welche Lebensmittel Beep falsch klassifiziert hat. Dabei fällt euch auf: Das ist kein Zufall! Beep folgt lediglich einer Regel, die ihm seine Trainingsdaten vorgegeben haben. Schaut euch deshalb noch einmal seine Klassifizierungen genau an und überlegt, nach welcher Regel Beep Lebensmittel als abgelaufen oder haltbar einordnet.</p>
+    <p class="muted"><b>Auftrag:</b> Nun habt ihr erkannt, welche Lebensmittel Beep falsch klassifiziert hat. Dabei fällt euch auf: Das ist kein Zufall! Beep folgt lediglich einer Regel, die ihm seine Trainingsdaten vorgegeben haben. Schaut euch deshalb noch einmal seine Klassifizierungen genau an und überlegt, nach welcher Regel Beep Lebensmittel als abgelaufen oder haltbar einordnet. Achtung: Ihr habt 3 Versuche!</p>
 
     <details class="tip">
       <summary>💡 Tipp anzeigen</summary>
@@ -138,7 +138,7 @@
 
     <!-- ===== Teil 3: Beep reparieren (Supervised Learning) ===== -->
     <div class="section"><span class="dot"></span> Teil 3 – Beep reparieren (Supervised Learning)</div>
-    <p class="muted"><b>Auftrag:</b> Ziehe die Input-Merkmale auf den richtigen Output, damit Beep die Produkte korrekt klassifiziert. Überlege, welche Merkmale für „abgelaufen“ und „frisch“ relevant sind.</p>
+    <p class="muted"><b>Auftrag:</b> Super! Nachdem ihr nun erkannt habt, welche falsche Regel Beep genutzt hat, um die Lebensmittel zu klasifizieren, programmiert ihr abschließend einen neuen Klassifikationsalgorithmus für Beep, damit er in Zukunft richtig klassifiziert. Überlegt euch nun also, nach welchen Regeln Beep in Zukunft klassifizieren soll. Zieht dafür die Input-Merkmale auf den richtigen Outputs. Überlegt genau, welche Merkmale für „abgelaufen“ und „frisch“ relevant sind.</p>
 
     <div class="dragdrop-container" style="display:flex; gap:50px; margin-bottom:20px;">
       <div style="flex:1">
@@ -250,7 +250,7 @@
       attempts += 1;
 
       if (attempts < MAX) {
-        fb.innerHTML = `❌ Nicht ganz. Versuch ${attempts} von ${MAX}. Tipp: Schau dir die Bedeutung der roten Sticker an.`;
+        fb.innerHTML = `❌ Nicht ganz. Versuch ${attempts} von ${MAX}. Versuch es erneut!`;
       } else {
         fb.innerHTML = `❌ Nicht ganz. <b>Musterlösung:</b> ${solutionText}`;
         lock();
